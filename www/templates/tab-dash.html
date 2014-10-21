@@ -7,7 +7,7 @@
   <ion-content class="padding">
     <ion-list>
       <ion-item ng-repeat="activity in activities" type="item-text-wrap" ng-click="toggleActivity(activity)">
-        {{activity.title}} = {{activity.duration}}
+        {{activity.title}} {{ activity.duration  | amDateFormat:'HH:mm:ss'}}
       </ion-item>
     </ion-list>
   </ion-content>

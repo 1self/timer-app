@@ -1,27 +1,35 @@
 angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope, $ionicModal, moment) {
-	 $scope.activities = [
-        { title: 'Meditate', duration: 0},
-        { title: 'Exercise', duration: 0},
-        { title: 'Meetings', duration: 0},
-        { title: 'Tooth brushing', duration: 0},
-        { title: 'Sleeping', duration: 0},
-        { title: 'Coding', duration: 0}
-    ];
+	$scope.activities = [{
+		title: 'Meditate'
+	}, {
+		title: 'Exercise'
+	}, {
+		title: 'Meetings'
+	}, {
+		title: 'Tooth brushing'
+	}, {
+		title: 'Sleeping'
+	}, {
+		title: 'Coding'
+	}];
+
 	$scope.toggleActivity = function(activity) {
-		var now = new moment();
-		console.info("now is : " + now);
+		var updateActivityTime = function() {
+			var elapsedTime = moment.duration(moment().diff(activity.startDate));
+			activity.duration = moment.utc(elapsedTime.asMilliseconds());
+			$scope.$apply();
+		};
 		if (!activity.interval) {
-			activity.interval = setInterval(function() {
-				activity.duration += 1;
-				$scope.$apply();
-			}, 1000);
+			activity.startDate = moment();
+			activity.interval = setInterval(updateActivityTime, 1000);
 		} else {
+			delete activity.startDate;
+			delete activity.duration;
 			clearInterval(activity.interval);
 			delete activity.interval;
 		}
-
 		console.log(activity);
 	}
 })
