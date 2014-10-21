@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $ionicModal) {
+.controller('DashCtrl', function($scope, $ionicModal, moment) {
 	 $scope.activities = [
         { title: 'Meditate', duration: 0},
         { title: 'Exercise', duration: 0},
@@ -10,6 +10,8 @@ angular.module('starter.controllers', [])
         { title: 'Coding', duration: 0}
     ];
 	$scope.toggleActivity = function(activity) {
+		var now = new moment();
+		console.info("now is : " + now);
 		if (!activity.interval) {
 			activity.interval = setInterval(function() {
 				activity.duration += 1;
