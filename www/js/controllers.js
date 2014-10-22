@@ -1,15 +1,24 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, ActivityTimingService) {
+.controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, ActivityTimingService, ActivityEventService) {
 	$scope.activities = ActivityTimingService.getAllActivities();
 
 	$scope.toggleActivity = function(activity) {
-		ActivityTimingService.toggleActivity(activity);
-		$scope.showToast();
+		var status = ActivityTimingService.toggleActivity(activity);
+		if (!status.running) {
+			var message = status.title + " for " + $filter('millisecondsToStringFilter')(status.duration);
+			try{
+				$scope.showToast(message);
+			} catch(e) {
+				console.error(e);
+			}
+
+			ActivityEventService.queueEvent(status);
+		}
 	};
 
-	$scope.showToast = function() {
-		$cordovaToast.show("Toast works!", 'long', 'bottom')
+	$scope.showToast = function(message) {
+		$cordovaToast.show(message, 'long', 'bottom')
 			.then(function(success) {
 				console.log("The toast was shown");
 			}, function(error) {

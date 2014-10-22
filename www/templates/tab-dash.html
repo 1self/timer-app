@@ -1,13 +1,14 @@
 <ion-view title="DURATION">
+<!-- 
     <ion-nav-buttons side="right">
         <button class="button" ng-click="addTimerEvent()">
             +
         </button>
-    </ion-nav-buttons>
+    </ion-nav-buttons> -->
   <ion-content class="padding">
     <ion-list>
       <ion-item ng-repeat="activity in activities" type="item-text-wrap" ng-click="toggleActivity(activity)">
-        {{activity.title}} {{ activity.duration  | amDateFormat:'HH:mm:ss'}}
+        {{activity.title}} <span style="float:right;">{{ activity.duration | millisecondsToStringFilter}}</span>
       </ion-item>
     </ion-list>
   </ion-content>
