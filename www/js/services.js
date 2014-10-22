@@ -66,6 +66,8 @@ angular.module('starter.services', [])
       status.startDate = activity.startDate;
       $interval.cancel(activity.interval);
       delete activity.interval;
+      delete activity.startDate;
+      delete activity.duration;
     }
     return status;
   };
@@ -92,7 +94,6 @@ angular.module('starter.services', [])
 .service('ActivityEventService', function() {
   var queueEvent = function(activity) {
     var queueString = window.localStorage['events'];
-    console.log(queueString);
 
     if (queueString) {
       var queue = angular.fromJson(queueString);

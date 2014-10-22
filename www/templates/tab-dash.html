@@ -1,3 +1,10 @@
+<style type="text/css">
+  .selected {
+    background-color:#dff0d8;
+    color: #3c763d;
+  }
+</style>
+
 <ion-view title="DURATION">
 <!-- 
     <ion-nav-buttons side="right">
@@ -7,7 +14,7 @@
     </ion-nav-buttons> -->
   <ion-content class="padding">
     <ion-list>
-      <ion-item ng-repeat="activity in activities" type="item-text-wrap" ng-click="toggleActivity(activity)">
+      <ion-item ng-repeat="activity in activities" type="item-text-wrap" ng-click="toggleActivity(activity)" ng-class="{'selected': activity.interval != undefined}">
         {{activity.title}} <span style="float:right;">{{ activity.duration | millisecondsToStringFilter}}</span>
       </ion-item>
     </ion-list>
