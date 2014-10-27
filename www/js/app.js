@@ -10,11 +10,12 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'angularMoment'])
 
-    .constant("API",{endpoint: "http://staging.quantifieddev.org",
+    .constant("API",{endpoint: "http://localhost:5000",
                      clientId: "timerapp",
                      clientSecret: "135711"
                     }
              )
+
     .run(function($ionicPlatform, $http, API) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
