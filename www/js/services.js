@@ -2,7 +2,7 @@ angular.module('starter.services', [])
 
 .filter('millisecondsToStringFilter', function() {
   return function(milliseconds) {
-    if(!milliseconds) return "";
+    if (!milliseconds) return "";
 
     var seconds = Math.floor(milliseconds / 1000);
     var minutes = Math.floor(seconds / 60);
@@ -21,7 +21,7 @@ angular.module('starter.services', [])
     }
 
     var durationString = '';
-    durationString += zeroPad(hours,2) + ':' + zeroPad(minutes,2) + ':' + zeroPad(seconds,2);
+    durationString += zeroPad(hours, 2) + ':' + zeroPad(minutes, 2) + ':' + zeroPad(seconds, 2);
     return durationString;
   };
 })
@@ -44,7 +44,7 @@ angular.module('starter.services', [])
   var toggleActivity = function(activity) {
     var updateActivityTime = function() {
       var elapsedTime = moment.duration(moment().diff(activity.startDate));
-      activity.duration = moment.utc(elapsedTime.asMilliseconds());
+      activity.duration = elapsedTime.asMilliseconds();
     };
 
     var status = {
@@ -90,18 +90,20 @@ angular.module('starter.services', [])
   };
 
 })
-
 .service('ActivityEventService', function() {
-  var queueEvent = function(activity) {
+  var getQueue = function() {
     var queueString = window.localStorage['events'];
-
     if (queueString) {
-      var queue = angular.fromJson(queueString);
-      queue.push(activity);
-      window.localStorage['events'] = angular.toJson(queue);
+      return angular.fromJson(queueString);
     } else {
-      window.localStorage['events'] = angular.toJson([activity]);
+      return [];
     }
+  };
+
+  var queueEvent = function(activity) {
+    var queue = getQueue();
+    queue.push(activity);
+    window.localStorage['events'] = angular.toJson(queue);
   };
 
   var sendEventLoop = function() {

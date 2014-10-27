@@ -4,16 +4,15 @@ angular.module('starter.controllers', [])
 	$scope.activities = ActivityTimingService.getAllActivities();
 
 	$scope.toggleActivity = function(activity) {
-		
+
 		var status = ActivityTimingService.toggleActivity(activity);
 		if (!status.running) {
 			var message = status.title + " for " + $filter('millisecondsToStringFilter')(status.duration);
-			try{
+			try {
 				$scope.showToast(message);
-			} catch(e) {
+			} catch (e) {
 				console.error(e);
 			}
-
 			ActivityEventService.queueEvent(status);
 		}
 	};
