@@ -1,7 +1,23 @@
 <style type="text/css">
   .selected {
-    background-color:#dff0d8;
-    color: #3c763d;
+    background-color:#0f9d58;
+    color: white;
+  }
+
+  .title, .tabs {
+      color: #fff !important;
+      background-color: #5264ae;
+      margin: 0 !important;
+  }
+
+  .custom-content{
+      background-color: #eee;
+  }
+
+  .chart_icon{
+      background-image:url('/img/chart_icon.svg');
+      width: 24px;
+      height: 24px;
   }
 </style>
 
@@ -12,11 +28,11 @@
             +
         </button>
     </ion-nav-buttons> -->
-  <ion-content class="padding">
+  <ion-content class="padding custom-content">
     <ion-list>
       <ion-item ng-repeat="activity in activities" type="item-text-wrap" ng-click="toggleActivity(activity)" ng-class="{'selected': activity.interval != undefined}">
         {{activity.title}} <span ng-if="activity.interval != undefined" style="float:right;">{{ activity.duration | millisecondsToStringFilter}}</span>
-        <span ng-click="showChart(activity, $event);" ng-if="activity.interval == undefined" style="float:right;">See chart</span>
+        <span class="chart_icon" ng-click="showChart(activity, $event);" ng-if="activity.interval == undefined" style="float:right;"></span>
         
       </ion-item>
     </ion-list>
