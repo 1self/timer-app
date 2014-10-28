@@ -26,19 +26,48 @@ angular.module('starter.services', [])
         };
     })
 
+    .filter('toEventFilter', function() {
+        return function(activity, status) {
+            var api_credentials = angular.fromJson(window.localStorage.api_credentials);
+            return {
+                "dateTime": status.startDate,
+                "streamid": api_credentials.streamid,
+                "source": "Timer App",
+                "version": "0.0.1",
+                "objectTags": activity.objectTags,
+                "actionTags": activity.actionTags,
+                "properties": {
+                    "duration": status.duration
+                }
+            };
+        };
+    })
+
     .service('ActivityTimingService', function(moment, $interval) {
         var activities = [{
-            title: 'Meditate'
+            title: 'Meditate',
+            objectTags: ['self'],
+            actionTags: ['meditate']
         }, {
-            title: 'Exercise'
+            title: 'Exercise',
+            objectTags: ['self'],
+            actionTags: ['exercise']
         }, {
-            title: 'Meetings'
+            title: 'Meetings',
+            objectTags: ['self'],
+            actionTags: ['meet']
         }, {
-            title: 'Tooth brushing'
+            title: 'Tooth brushing',
+            objectTags: ['teeth'],
+            actionTags: ['brush']
         }, {
-            title: 'Sleeping'
+            title: 'Sleeping',
+            objectTags: ['self'],
+            actionTags: ['sleep']
         }, {
-            title: 'Coding'
+            title: 'Coding',
+            objectTags: ['self'],
+            actionTags: ['code']
         }];
 
         var toggleActivity = function(activity) {
@@ -90,7 +119,7 @@ angular.module('starter.services', [])
         };
 
     })
-    .service('ActivityEventService', function() {
+    .service('ActivityEventService', function($http, $timeout, API) {
         var getQueue = function() {
             var queueString = window.localStorage['events'];
             if (queueString) {
@@ -113,55 +142,34 @@ angular.module('starter.services', [])
         }
 
         var sendEvents = function(){
-            var api_credentials = angular.fromJson(window.localStorage.api_credentials);
-            var poller = function() {
-                eventBuffer.forEach(function(elem){
-                    var event = formatEvent(elem),
-                    headers = {'Authorization': api_credentials.write_token,
-                               'Content-Type': 'application/json'
-                              };
+            var api_credentials = angular.fromJson(window.localStorage.api_credentials),
+            api_headers = {'Authorization': api_credentials.writeToken,
+                           'Content-Type': 'application/json'
+                          },
 
-                    $http.post(API.endpoint + "/stream/" + api_credentials.streamId + '/event', event, {headers: headers)
-                               .success(function(data) {
-                                   
-                               });
-                              );
-                                    $timeout(poller, 1000);
-                                   };
+            poller = function() {
+                getQueue().forEach(function(elem){
 
-                poller();
+                    $http.post(API.endpoint + "/stream/" + api_credentials.streamid + '/event', 
+                               elem, {headers: api_headers})
+                        .success(function(data) {
+                            popQueue();
+                        })
+                    
+                        .error(function(data){
+                            //do nothing
+                        });
+                });
 
+                $timeout(poller, 5000);
             }
+
+            poller();
         };
 
         return {
-            queueEvent: queueEvent
-        };
-    })
-
-    .factory('EventsSendPoller', function($http, $timeout, ActivityEventService, API) {
-        var api_credentials = window.localStorage.api_credentials;
-        var poller = function() {
-            var data = ActivityEventService.getQueue();
-            data.forEach(function(elem){
-                var event = formatEvent(elem),
-                headers = {'Authorization': api_credentials.write_token,
-                                'Content-Type': 'application/json'
-                               };
-
-                $http.post(API.endpoint + "/stream/" + api_credentials.streamId + '/event', event, {headers: headers)
-                    .then(function(r) {
-                        data.response = r.data;
-                        data.calls++;
-                    });
-            });
-            $timeout(poller, 1000);
-        };
-
-        poller();
-
-        return {
-            data: data
+            queueEvent: queueEvent,
+            sendEvents: sendEvents
         };
     })
 

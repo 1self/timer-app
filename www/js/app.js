@@ -16,7 +16,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     }
              )
 
-    .run(function($ionicPlatform, $http, API) {
+    .run(function($ionicPlatform, $http, API, ActivityEventService) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -40,6 +40,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                         //try again next time :(
                     });
             }
+
+            ActivityEventService.sendEvents();
         })
     })
 
