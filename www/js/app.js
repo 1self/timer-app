@@ -41,6 +41,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     });
             }
 
+            //a continuous service to send pending events
             ActivityEventService.sendEvents();
         })
     })

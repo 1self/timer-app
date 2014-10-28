@@ -15,7 +15,9 @@
   <ion-content class="padding">
     <ion-list>
       <ion-item ng-repeat="activity in activities" type="item-text-wrap" ng-click="toggleActivity(activity)" ng-class="{'selected': activity.interval != undefined}">
-        {{activity.title}} <span style="float:right;">{{ activity.duration | millisecondsToStringFilter}}</span>
+        {{activity.title}} <span ng-if="activity.interval != undefined" style="float:right;">{{ activity.duration | millisecondsToStringFilter}}</span>
+        <span ng-click="showChart(activity, $event);" ng-if="activity.interval == undefined" style="float:right;">See chart</span>
+        
       </ion-item>
     </ion-list>
   </ion-content>
