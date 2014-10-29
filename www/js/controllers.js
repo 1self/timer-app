@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
                 api_credentials.streamid + "/events/" +
                 activity.objectTags.join(',') + "/" +
                 activity.actionTags.join(',') +
-                "/sum(duration)/daily/barChart";
+                "/sum(duration)/daily/barchart";
 
             //window.open(uri);
             navigator.app.loadUrl(uri, { openExternal:true });
