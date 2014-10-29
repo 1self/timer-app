@@ -146,6 +146,7 @@ angular.module('starter.services', [])
 
             poller = function() {
                 if(typeof api_credentials == 'undefined'){
+                    api_credentials = angular.fromJson(window.localStorage.api_credentials);
                     console.log("Waiting for stream registration");
                 }else{
 
