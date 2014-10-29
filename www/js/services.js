@@ -147,25 +147,26 @@ angular.module('starter.services', [])
             poller = function() {
                 if(typeof api_credentials == 'undefined'){
                     console.log("Waiting for stream registration");
-                    return;
-                }
+                }else{
 
-                var api_headers = {'Authorization': api_credentials.writeToken,
-                                   'Content-Type': 'application/json'
-                                  };
-                
-                getQueue().forEach(function(elem){
-
-                    $http.post(API.endpoint + "/v1/streams/" + api_credentials.streamid + '/events', 
-                               elem, {headers: api_headers})
-                        .success(function(data) {
-                            popQueue();
-                        })
+                    var api_headers = {'Authorization': api_credentials.writeToken,
+                                       'Content-Type': 'application/json'
+                                      };
                     
-                        .error(function(data){
-                            //do nothing
-                        });
-                });
+                    getQueue().forEach(function(elem){
+
+                        $http.post(API.endpoint + "/v1/streams/" + api_credentials.streamid + '/events', 
+                                   elem, {headers: api_headers})
+                            .success(function(data) {
+                                popQueue();
+                            })
+                        
+                            .error(function(data){
+                                //do nothing
+                            });
+                    });
+
+                }
 
                 $timeout(poller, 5000);
             }
