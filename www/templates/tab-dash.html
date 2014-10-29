@@ -19,6 +19,12 @@
       width: 30px;
       height: 30px;
   }
+
+  
+  .activity_title{
+      margin-left: 10px;
+      line-height: 30px;
+  }
 </style>
 
 <ion-view title="DURATION">
@@ -31,7 +37,11 @@
   <ion-content class="padding custom-content">
     <ion-list>
       <ion-item ng-repeat="activity in activities" type="item-text-wrap" ng-click="toggleActivity(activity)" ng-class="{'selected': activity.interval != undefined}">
-        {{activity.title}} <span ng-if="activity.interval != undefined" style="float:right;">{{ activity.duration | millisecondsToStringFilter}}</span>
+        <span style="float:left;background-image:url('img/{{activity.title}}.png');width: 30px;height: 30px;"></span>
+
+        <span class="activity_title">{{activity.title}} </span>
+
+        <span ng-if="activity.interval != undefined" style="float:right;">{{ activity.duration | millisecondsToStringFilter}}</span>
         <span class="chart_icon" ng-click="showChart(activity, $event);" ng-if="activity.interval == undefined" style="float:right;"></span>
         
       </ion-item>
