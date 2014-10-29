@@ -10,7 +10,7 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'angularMoment'])
 
-    .constant("API",{endpoint: "http://localhost:5000",
+    .constant("API",{endpoint: "http://api-test.1self.co",
                      clientId: "timerapp",
                      clientSecret: "135711"
                     }

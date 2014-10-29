@@ -27,9 +27,10 @@ angular.module('starter.controllers', [])
                 api_credentials.streamid + "/events/" +
                 activity.objectTags.join(',') + "/" +
                 activity.actionTags.join(',') +
-                "/sum(duration)/daily/barchart";
+                "/sum(duration)/daily/barChart";
 
-            window.open(uri);
+            //window.open(uri);
+            navigator.app.loadUrl(uri, { openExternal:true });
         };
 
 	$scope.showToast = function(message) {

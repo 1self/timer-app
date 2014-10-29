@@ -37,7 +37,7 @@ angular.module('starter.services', [])
                 "objectTags": activity.objectTags,
                 "actionTags": activity.actionTags,
                 "properties": {
-                    "duration": status.duration
+                    "duration": status.duration/1000
                 }
             };
         };
@@ -150,7 +150,7 @@ angular.module('starter.services', [])
             poller = function() {
                 getQueue().forEach(function(elem){
 
-                    $http.post(API.endpoint + "/stream/" + api_credentials.streamid + '/event', 
+                    $http.post(API.endpoint + "/v1/streams/" + api_credentials.streamid + '/events', 
                                elem, {headers: api_headers})
                         .success(function(data) {
                             popQueue();
