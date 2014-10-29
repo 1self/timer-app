@@ -143,11 +143,17 @@ angular.module('starter.services', [])
 
         var sendEvents = function(){
             var api_credentials = angular.fromJson(window.localStorage.api_credentials),
-            api_headers = {'Authorization': api_credentials.writeToken,
-                           'Content-Type': 'application/json'
-                          },
 
             poller = function() {
+                if(typeof api_credentials == 'undefined'){
+                    console.log("Waiting for stream registration");
+                    return;
+                }
+
+                var api_headers = {'Authorization': api_credentials.writeToken,
+                                   'Content-Type': 'application/json'
+                                  };
+                
                 getQueue().forEach(function(elem){
 
                     $http.post(API.endpoint + "/v1/streams/" + api_credentials.streamid + '/events', 
