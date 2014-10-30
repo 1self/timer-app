@@ -132,8 +132,9 @@ angular.module('starter.services', [])
 
     })
     .service('ActivityEventService', function($http, $timeout, API) {
-        var getQueue = function() {
-            var queueString = window.localStorage['events'];
+        var getQueue = function(type) {
+            type = (typeof type == 'undefined'? 'events': type);
+            var queueString = window.localStorage[type];
             if (queueString) {
                 return angular.fromJson(queueString);
             } else {
@@ -145,6 +146,7 @@ angular.module('starter.services', [])
             var queue = getQueue();
             queue.push(activity);
             window.localStorage['events'] = angular.toJson(queue);
+            window.localStorage['global_events'] = angular.toJson(queue);
         };
 
         var popQueue = function(){
@@ -191,33 +193,4 @@ angular.module('starter.services', [])
             queueEvent: queueEvent,
             sendEvents: sendEvents
         };
-    })
-
-    .factory('Friends', function() {
-        // Might use a resource here that returns a JSON array
-
-        // Some fake testing data
-        var friends = [{
-            id: 0,
-            name: 'Scruff McGruff'
-        }, {
-            id: 1,
-            name: 'G.I. Joe'
-        }, {
-            id: 2,
-            name: 'Miss Frizzle'
-        }, {
-            id: 3,
-            name: 'Ash Ketchum'
-        }];
-
-        return {
-            all: function() {
-                return friends;
-            },
-            get: function(friendId) {
-                // Simple index lookup
-                return friends[friendId];
-            }
-        }
     });

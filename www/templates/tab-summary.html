@@ -38,14 +38,14 @@
     <div ng-show="period == 'daily'" class="list">
       <label class="item item-input">
         <span class="input-label">Date</span>
-        <input type="date"/>
+        <input ng-model="date" type="date"/>
       </label>
     </div>
 
     <div ng-show="period == 'monthly'" class="list">
       <label class="item item-input">
         <span class="input-label">Month</span>
-        <input type="month"/>
+        <input ng-model="month" type="month"/>
       </label>
     </div>
 

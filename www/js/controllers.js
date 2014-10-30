@@ -46,6 +46,9 @@ angular.module('starter.controllers', [])
     .controller('SummaryCtrl', function($scope, ActivitiesService) {
         $scope.activities = ActivitiesService.listActivities();
         
+        $scope.filter = function(period){
+
+        };
     })
 
     .controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
