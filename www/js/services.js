@@ -43,7 +43,7 @@ angular.module('starter.services', [])
         };
     })
 
-    .service('ActivityTimingService', function(moment, $interval) {
+    .service('ActivitiesService', function(){
         var activities = [{
             title: 'Meditate',
             objectTags: ['self'],
@@ -69,6 +69,18 @@ angular.module('starter.services', [])
             objectTags: ['self'],
             actionTags: ['code']
         }];
+
+        var listActivities = function(){
+            return activities;
+        }
+
+        return {
+            listActivities: listActivities
+        };
+    })
+
+    .service('ActivityTimingService', function(moment, $interval, ActivitiesService) {
+        var activities = ActivitiesService.listActivities();
 
         var toggleActivity = function(activity) {
             var updateActivityTime = function() {

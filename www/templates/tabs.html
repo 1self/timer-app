@@ -3,6 +3,52 @@
   Each tab's child <ion-nav-view> directive will have its own 
   navigation history that also transitions its views in and out.
 -->
+
+<style type="text/css">
+  .selected {
+    background-color:#0f9d58;
+    color: white;
+  }
+
+  .title, .tabs {
+      color: #fff !important;
+      background-color: #800A00 !important;
+      margin: 0 !important;
+  }
+
+  .custom-content{
+      background-color: #eee;
+  }
+
+  .chart_icon{
+      background-image:url('img/chart_icon.png');
+      width: 40px;
+      height: 30px;
+  }
+
+  
+  .activity_title{
+      margin-left: 10px;
+      line-height: 30px;
+  }
+
+  .activity_duration{
+      float: right;
+      line-height: 30px;
+  }
+
+  .item_description{
+      float:left;
+      width: 90%;
+  }
+
+  .item_icon{
+      float:left;
+      width: 10%;
+  }
+
+</style>
+
 <ion-tabs class="tabs-icon-top">
 
 
@@ -12,10 +58,10 @@
   </ion-tab>
 
 
-  <!-- <\!-- Friends Tab -\-> -->
-  <!-- <ion-tab title="Charts" icon="icon ion-heart" href="#/tab/friends"> -->
-  <!--   <ion-nav-view name="tab-friends"></ion-nav-view> -->
-  <!-- </ion-tab> -->
+  <!-- Summary Tab -->
+  <ion-tab title="Summary" icon="icon ion-heart" href="#/tab/summary">
+    <ion-nav-view name="tab-summary"></ion-nav-view>
+  </ion-tab>
 
 
   <!-- <\!-- Account Tab -\-> -->

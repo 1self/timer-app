@@ -1,0 +1,54 @@
+<style type="text/css">
+.item-checkbox{
+    width: 50%;
+    float: left;
+}
+</style>
+
+<ion-view title="Summary">
+  <ion-content>
+
+    <div class="list">
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Activity
+        </div>
+        <select>
+          <option value="all">All</option>
+          <option ng-repeat="activity in activities" value="{{activity.title}}">{{activity.title}}</option>
+        </select>
+      </label>
+    </div>
+
+
+    <ul class="list">
+      <li class="item item-checkbox">
+        <label class="checkbox">
+          <input type="radio" name="duration"/>
+        </label>
+        Daily
+      </li>
+      <li class="item item-checkbox">
+        <label class="checkbox">
+          <input type="radio" name="duration"/>
+        </label>
+        Monthly
+      </li>
+    </ul>
+
+    <div class="list">
+      <label class="item item-input">
+        <span class="input-label">Date</span>
+        <input type="date"/>
+      </label>
+    </div>
+
+    <div class="list">
+      <label class="item item-input">
+        <span class="input-label">Month</span>
+        <input type="month"/>
+      </label>
+    </div>
+
+  </ion-content>
+</ion-view>

@@ -73,12 +73,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                 }
             })
 
-            .state('tab.friends', {
-                url: '/friends',
+            .state('tab.summary', {
+                url: '/summary',
                 views: {
-                    'tab-friends': {
-                        templateUrl: 'templates/tab-friends.html',
-                        controller: 'FriendsCtrl'
+                    'tab-summary': {
+                        templateUrl: 'templates/tab-summary.html',
+                        controller: 'SummaryCtrl'
                     }
                 }
             })

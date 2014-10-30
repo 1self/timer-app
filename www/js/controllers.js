@@ -43,8 +43,9 @@ angular.module('starter.controllers', [])
 	}
     })
 
-    .controller('FriendsCtrl', function($scope, Friends) {
-	$scope.friends = Friends.all();
+    .controller('SummaryCtrl', function($scope, ActivitiesService) {
+        $scope.activities = ActivitiesService.listActivities();
+        
     })
 
     .controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
