@@ -30,6 +30,17 @@
       float: right;
       line-height: 30px;
   }
+
+  .item_description{
+      float:left;
+      width: 90%;
+  }
+
+  .item_icon{
+      float:left;
+      width: 10%;
+  }
+
 </style>
 
 <ion-view title="DURATION">
@@ -41,14 +52,17 @@
     </ion-nav-buttons> -->
   <ion-content class="padding custom-content">
     <ion-list>
-      <ion-item ng-repeat="activity in activities" type="item-text-wrap" ng-click="toggleActivity(activity)" ng-class="{'selected': activity.interval != undefined}">
-        <span style="float:left;background-image:url('img/{{activity.title}}.png');width: 30px;height: 30px;"></span>
+      <ion-item ng-repeat="activity in activities" type="item-text-wrap" ng-class="{'selected': activity.interval != undefined}">
+        <div class="item_description" ng-click="toggleActivity(activity)">
+          <span style="float:left;background-image:url('img/{{activity.title}}.png');width: 30px;height: 30px;"></span>
 
-        <span class="activity_title">{{activity.title}} </span>
+          <span class="activity_title">{{activity.title}} </span>
+        </div>
 
-        <span ng-if="activity.interval != undefined" class="activity_duration">{{ activity.duration | millisecondsToStringFilter}}</span>
-        <span class="chart_icon" ng-click="showChart(activity, $event);" ng-if="activity.interval == undefined" style="float:right;"></span>
-        
+        <div class="item_icon">
+          <span ng-if="activity.interval != undefined" class="activity_duration">{{ activity.duration | millisecondsToStringFilter}}</span>
+          <span class="chart_icon" ng-click="showChart(activity, $event);" ng-if="activity.interval == undefined" style="float:right;"></span>
+        </div>   
       </ion-item>
     </ion-list>
   </ion-content>
