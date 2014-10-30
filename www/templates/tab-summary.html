@@ -20,30 +20,29 @@
       </label>
     </div>
 
-
-    <ul class="list">
+    <ul class="list" ng-init="period='daily'">
       <li class="item item-checkbox">
         <label class="checkbox">
-          <input type="radio" name="duration"/>
+          <input type="radio" value="daily" ng-model="period" name="period"/>
         </label>
         Daily
       </li>
       <li class="item item-checkbox">
         <label class="checkbox">
-          <input type="radio" name="duration"/>
+          <input type="radio" value="monthly" ng-model="period" name="period"/>
         </label>
         Monthly
       </li>
     </ul>
 
-    <div class="list">
+    <div ng-show="period == 'daily'" class="list">
       <label class="item item-input">
         <span class="input-label">Date</span>
         <input type="date"/>
       </label>
     </div>
 
-    <div class="list">
+    <div ng-show="period == 'monthly'" class="list">
       <label class="item item-input">
         <span class="input-label">Month</span>
         <input type="month"/>
