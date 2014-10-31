@@ -44,8 +44,6 @@ angular.module('starter.controllers', [])
     })
 
     .controller('SummaryCtrl', function($scope, ActivityEventService) {
-        //$scope.activities = ActivitiesService.listActivities();
-        
         $scope.events = ActivityEventService.getQueue('global_events');
     })
 

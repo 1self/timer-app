@@ -27,9 +27,23 @@ angular.module('starter.services', [])
     })
 
     .filter('groupByDate', function(){
-        return function(events){
+        function memoize(func) {
+            var memo = {};
+            var slice = Array.prototype.slice;
+
+            return function() {
+                var args = slice.call(arguments);
+
+                if (args in memo)
+                    return memo[args];
+                else
+                    return (memo[args] = func.apply(this, args));
+
+            }
+        }
+        return memoize(function(events){
             var groups = {};
-            events.forEach(function(event){
+            angular.forEach(events, function(event){
                 var date = event.dateTime.split('T')[0];
                 if(!groups[date]){
                     groups[date] = [];
@@ -39,7 +53,7 @@ angular.module('starter.services', [])
             });
 
             return groups;
-        };
+        });
     })
 
     .filter('toEventFilter', function() {
@@ -160,9 +174,13 @@ angular.module('starter.services', [])
 
         var queueEvent = function(activity) {
             var queue = getQueue();
+            var global_queue = getQueue('global_events');
+
             queue.push(activity);
             window.localStorage['events'] = angular.toJson(queue);
-            window.localStorage['global_events'] = angular.toJson(queue);
+
+            global_queue.push(activity);
+            window.localStorage['global_events'] = angular.toJson(global_queue);
         };
 
         var popQueue = function(){

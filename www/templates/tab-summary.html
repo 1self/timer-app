@@ -49,11 +49,16 @@
     <!--   </label> -->
     <!-- </div> -->
 
-    <ul ng-repeat="(date_group, items) in events | groupByDate">
-      Group name: {{ date_group }}
-      <li ng-repeat="event in items">
-        Event: {{ events.objectTags.join(',') }}
-      </li>
+    <ul>
+        <li ng-repeat="(group,items) in events|groupByDate">
+          Group name: {{ group }}
+
+            <ul>
+            <li ng-repeat="item in items">
+            Event: {{ item.actionTags.join(',') }}
+            </li>
+            </ul>
+        </li>
     </ul>
 
 
