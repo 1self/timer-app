@@ -14,7 +14,7 @@ angular.module('starter.controllers', [])
 		    console.error(e);
 		}
 
-                var event = $filter('toEventFilter')(activity, status);
+                var event = $filter('buildEventFilter')(activity, status);
 
 		ActivityEventService.queueEvent(event);
 	    }
