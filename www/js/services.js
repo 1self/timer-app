@@ -26,6 +26,22 @@ angular.module('starter.services', [])
         };
     })
 
+    .filter('groupByDate', function(){
+        return function(events){
+            var groups = {};
+            events.forEach(function(event){
+                var date = event.dateTime.split('T')[0];
+                if(!groups[date]){
+                    groups[date] = [];
+                }
+                
+                groups[date].push(event);
+            });
+
+            return groups;
+        };
+    })
+
     .filter('toEventFilter', function() {
         return function(activity, status) {
             var api_credentials = angular.fromJson(window.localStorage.api_credentials);
@@ -191,6 +207,7 @@ angular.module('starter.services', [])
 
         return {
             queueEvent: queueEvent,
-            sendEvents: sendEvents
+            sendEvents: sendEvents,
+            getQueue: getQueue
         };
     });

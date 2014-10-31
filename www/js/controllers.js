@@ -43,12 +43,10 @@ angular.module('starter.controllers', [])
 	}
     })
 
-    .controller('SummaryCtrl', function($scope, ActivitiesService) {
-        $scope.activities = ActivitiesService.listActivities();
+    .controller('SummaryCtrl', function($scope, ActivityEventService) {
+        //$scope.activities = ActivitiesService.listActivities();
         
-        $scope.filter = function(period){
-
-        };
+        $scope.events = ActivityEventService.getQueue('global_events');
     })
 
     .controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
