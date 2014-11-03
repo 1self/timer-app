@@ -61,8 +61,7 @@ angular.module('starter.services', [])
             return {
                 "activity": activity.title,
                 "dateTime": status.startDate,
-                "duration": status.duration/1000,
-                "event_sent": false
+                "duration": status.duration/1000
             };
         };
     })
@@ -110,7 +109,7 @@ angular.module('starter.services', [])
         };
 
         var getTags = function(activity_name){
-            return tags["activity_name"];
+            return tags[activity_name];
         };
 
         var listActivities = function(){
@@ -177,8 +176,8 @@ angular.module('starter.services', [])
     })
 
     .service('ActivityEventService', function($http, $timeout, API, $filter, ActivitiesService) {
-        var getQueue = function(type) {
-            var queueString = window.localStorage[type];
+        var getQueue = function() {
+            var queueString = window.localStorage.events;
             if (queueString) {
                 return angular.fromJson(queueString);
             } else {
@@ -189,32 +188,33 @@ angular.module('starter.services', [])
         queueEvent = function(activity) {
             var queue = getQueue();
             queue.push(activity);
-            window.localStorage['events'] = angular.toJson(queue);
+            window.localStorage.events = angular.toJson(queue);
         },
 
-        markEventsSent = function(to_index){
-            var queue = getQueue(),
-            from_index = window.localStorage['last_event_sent_index'];
-            for (i = from_index + 1; i <= to_index; i++) { 
-                queue[i].event_sent = true;
-            }
-            window.localStorage['events'] = angular.toJson(queue);
-            window.localStorage['last_event_sent_index'] = to_index;
+        updateLastSentIndex = function(number_of_sent){
+            var last_index = getLastSentIndex(),
+            new_last_sent_index = last_index + number_of_sent;
+            
+            window.localStorage['last_event_sent_index'] = new_last_sent_index;
+        },
+
+        getLastSentIndex = function(){
+            return parseInt(window.localStorage['last_event_sent_index']) || -1;
         },
 
         getUnsentEvents = function(){
             var queue = getQueue(),
-            last_event_sent_index = window.localStorage['last_event_sent_index'],
+            last_event_sent_index = getLastSentIndex(),
             queue_length = queue.length;
 
-            return queue.slice(last_event_sent_index + 1, queue_length - 1);
+            return queue.slice(last_event_sent_index + 1, queue_length);
         },
 
         sendEvents = function(){
             var api_credentials = angular.fromJson(window.localStorage.api_credentials),
 
             buildAPIEvent = function(event){
-                var tags = ActivitiesService.getTags(event);
+                var tags = ActivitiesService.getTags(event.activity);
                 return {
                     "dateTime": event.dateTime,
                     "streamid": api_credentials.streamid,
@@ -223,7 +223,7 @@ angular.module('starter.services', [])
                     "objectTags": tags.objectTags,
                     "actionTags": tags.actionTags,
                     "properties": {
-                        "duration": activity.duration
+                        "duration": event.duration
                     }
                 };
             },
@@ -241,29 +241,33 @@ angular.module('starter.services', [])
                     api_events = [],
                     events = getUnsentEvents();
 
-                    for(i=0; i < events.length; i++){
-                        api_events.push(buildAPIEvent(events[i]));
+                    if(0 != events.length){
+                        for(i=0; i < events.length; i++){
+                            api_events.push(buildAPIEvent(events[i]));
+                        }
+                        
+                        $http.post(API.endpoint + "/v1/streams/" + api_credentials.streamid + '/events/batch', 
+                                   api_events, {headers: api_headers})
+                            .success(function(data) {
+                                updateLastSentIndex(api_events.length);
+                            })
+                        
+                            .error(function(data){
+                                //do nothing
+                            });
                     }
-                    
-                    $http.post(API.endpoint + "/v1/streams/" + api_credentials.streamid + '/events/batch', 
-                               api_events, {headers: api_headers})
-                        .success(function(data) {
-                            markEventsSent(api_events.length);
-                        })
-                    
-                        .error(function(data){
-                            //do nothing
-                        });
                 }
                 
                 $timeout(poller, 5000);
             };
             
             poller();
+        };
 
-            return {
-                queueEvent: queueEvent,
-                sendEvents: sendEvents,
-                getQueue: getQueue
-            };
-        });
+        return {
+            queueEvent: queueEvent,
+            sendEvents: sendEvents,
+            getQueue: getQueue
+        };
+        
+    });
