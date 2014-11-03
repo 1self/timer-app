@@ -10,14 +10,14 @@
     <ion-list>
       <ion-item ng-repeat="activity in activities" type="item-text-wrap" ng-class="{'selected': activity.interval != undefined}">
         <div class="item_description" ng-click="toggleActivity(activity)">
-          <span style="float:left;background-image:url('img/{{activity.title}}.png');width: 30px;height: 30px;"></span>
+          <span style="background-image:url('img/{{activity.title}}.png');" class="activity_icon"></span>
 
           <span class="activity_title">{{activity.title}} </span>
         </div>
 
-        <div class="item_icon">
+        <div class="item_controls">
           <span ng-if="activity.interval != undefined" class="activity_duration">{{ activity.duration | millisecondsToStringFilter}}</span>
-          <span class="chart_icon" ng-click="showChart(activity, $event);" ng-if="activity.interval == undefined" style="float:right;"></span>
+          <span class="chart_icon" ng-click="showChart(activity, $event);" ng-if="activity.interval == undefined"></span>
         </div>   
       </ion-item>
     </ion-list>

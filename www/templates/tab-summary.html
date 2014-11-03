@@ -1,66 +1,24 @@
-<style type="text/css">
-.item-checkbox{
-    width: 50%;
-    float: left;
-}
-</style>
-
 <ion-view title="Summary">
   <ion-content>
+    <div class="list" ng-repeat="(date,items) in events|groupByDate">
+      <div class="item item-divider item-center">
+        {{date|humanize}}
+      </div>
 
-    <!-- <div class="list"> -->
-    <!--   <label class="item item-input item-select"> -->
-    <!--     <div class="input-label"> -->
-    <!--       Activity -->
-    <!--     </div> -->
-    <!--     <select> -->
-    <!--       <option value="all">All</option> -->
-    <!--       <option ng-repeat="activity in activities" value="{{activity.title}}">{{activity.title}}</option> -->
-    <!--     </select> -->
-    <!--   </label> -->
-    <!-- </div> -->
+      <a class="item" ng-repeat="item in items">
+        <div class="item_description">
+          <span style="background-image:url('img/{{item.activity}}.png');" class="activity_icon"></span>
+          <span class="activity_title">{{ item.activity }}</span> 
+        </div>
 
-    <!-- <ul class="list" ng-init="period='daily'"> -->
-    <!--   <li class="item item-checkbox"> -->
-    <!--     <label class="checkbox"> -->
-    <!--       <input type="radio" value="daily" ng-model="period" name="period"/> -->
-    <!--     </label> -->
-    <!--     Daily -->
-    <!--   </li> -->
-    <!--   <li class="item item-checkbox"> -->
-    <!--     <label class="checkbox"> -->
-    <!--       <input type="radio" value="monthly" ng-model="period" name="period"/> -->
-    <!--     </label> -->
-    <!--     Monthly -->
-    <!--   </li> -->
-    <!-- </ul> -->
-
-    <!-- <div ng-show="period == 'daily'" class="list"> -->
-    <!--   <label class="item item-input"> -->
-    <!--     <span class="input-label">Date</span> -->
-    <!--     <input ng-model="date" type="date"/> -->
-    <!--   </label> -->
-    <!-- </div> -->
-
-    <!-- <div ng-show="period == 'monthly'" class="list"> -->
-    <!--   <label class="item item-input"> -->
-    <!--     <span class="input-label">Month</span> -->
-    <!--     <input ng-model="month" type="month"/> -->
-    <!--   </label> -->
-    <!-- </div> -->
-
-    <ul>
-        <li ng-repeat="(group,items) in events|groupByDate">
-          Group name: {{ group }}
-
-            <ul>
-            <li ng-repeat="item in items">
-            Event: {{ item.actionTags.join(',') }}
-            </li>
-            </ul>
-        </li>
-    </ul>
-
-
+        <div class="item_controls">
+          <span class="activity_duration history_duration" ng-init="hours=format_time(item.duration, 'hours');minutes=format_time(item.duration, 'minutes');seconds=format_time(item.duration, 'seconds')">
+            <b ng-show="hours">{{ hours }}h </b>
+            <b ng-show="minutes">{{ minutes }}m </b>
+            <b ng-show="seconds">{{ seconds }}s </b>
+          </span>
+        </div>
+      </a>
+    </div>
   </ion-content>
 </ion-view>

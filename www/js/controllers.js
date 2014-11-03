@@ -43,12 +43,10 @@ angular.module('starter.controllers', [])
 	}
     })
 
-    .controller('SummaryCtrl', function($scope, ActivityEventService) {
-        $scope.events = ActivityEventService.getQueue('global_events');
-    })
-
-    .controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
-	$scope.friend = Friends.get($stateParams.friendId);
-    })
-
-    .controller('AccountCtrl', function($scope) {});
+    .controller('SummaryCtrl', function(moment, $scope, ActivityEventService) {
+        $scope.events = ActivityEventService.getQueue();
+        $scope.format_time = function(secs, type){
+            var duration = moment.duration(secs * 1000);
+            return duration[type]();
+        };
+    });
