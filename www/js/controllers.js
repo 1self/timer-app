@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-    .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, ActivityTimingService, ActivityEventService, API) {
+    .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, ActivityTimingService, ActivityEventService, API, ActivitiesService) {
 	$scope.activities = ActivityTimingService.getAllActivities();
 
 	$scope.toggleActivity = function(activity) {
@@ -23,10 +23,11 @@ angular.module('starter.controllers', [])
         $scope.showChart =  function(activity, $event){
             $event.stopImmediatePropagation();
             var api_credentials = angular.fromJson(window.localStorage.api_credentials),
+            tags = ActivitiesService.getTags(activity.title),
             uri = API.endpoint + "/v1/streams/" +
                 api_credentials.streamid + "/events/" +
-                activity.objectTags.join(',') + "/" +
-                activity.actionTags.join(',') +
+                tags.objectTags.join(',') + "/" +
+                tags.actionTags.join(',') +
                 "/sum(duration)/daily/barchart";
 
             //window.open(uri);
