@@ -29,17 +29,15 @@ angular.module('starter.services', [])
     .filter('humanize', ['moment', function(moment){
         moment.locale('en', {
             calendar : {
-                lastDay : '[Tomorrow]',
+                lastDay : '[Yesterday]',
                 sameDay : '[Today]',
-                nextDay : '[Yesterday]',
-                lastWeek : '[last] dddd LL',
-                nextWeek : 'dddd LL',
+                lastWeek : '[Last] dddd LL',
                 sameElse : 'LL'
             }
         });
 
         return function(date){
-            return moment().calendar(date);
+            return moment(date).calendar();
         };
     }])
 
