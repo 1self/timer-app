@@ -26,6 +26,16 @@ angular.module('starter.services', [])
         };
     })
 
+    .filter('buildEventFilter', function() {		
+        return function(activity, status) {		
+            return {		
+                "activity": activity.title,		
+                "dateTime": status.startDate,		
+                "duration": status.duration/1000		
+            };		
+        };		
+    })
+
     .filter('humanize', ['moment', function(moment){
         moment.locale('en', {
             calendar : {
