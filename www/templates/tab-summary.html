@@ -1,11 +1,11 @@
 <ion-view title="Summary">
   <ion-content>
-    <div class="list" ng-repeat="(date,items) in events|groupByDate">
+    <div class="list" ng-repeat="date in event_dates">
       <div class="item item-divider item-center">
         {{date|humanize}}
       </div>
 
-      <a class="item" ng-repeat="item in items">
+      <a class="item" ng-repeat="item in events[date]">
         <div class="item_description">
           <span style="background-image:url('img/{{item.activity}}.png');" class="activity_icon"></span>
           <span class="activity_title">{{ item.activity }}</span> 

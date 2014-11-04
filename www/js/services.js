@@ -41,46 +41,6 @@ angular.module('starter.services', [])
         };
     }])
 
-    .filter('groupByDate', function(){
-        function memoize(func) {
-            var memo = {};
-            var slice = Array.prototype.slice;
-
-            return function() {
-                var args = slice.call(arguments);
-
-                if (args in memo)
-                    return memo[args];
-                else
-                    return (memo[args] = func.apply(this, args));
-
-            }
-        }
-        return memoize(function(events){
-            var groups = {};
-            angular.forEach(events, function(event){
-                var date = event.dateTime.split('T')[0];
-                if(!groups[date]){
-                    groups[date] = [];
-                }
-                
-                groups[date].push(event);
-            });
-
-            return groups;
-        });
-    })
-
-    .filter('buildEventFilter', function() {
-        return function(activity, status) {
-            return {
-                "activity": activity.title,
-                "dateTime": status.startDate,
-                "duration": status.duration/1000
-            };
-        };
-    })
-
     .service('ActivitiesService', function(){
         var activities = [{
             title: 'Meditate'

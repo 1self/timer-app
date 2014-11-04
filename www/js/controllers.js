@@ -45,7 +45,24 @@ angular.module('starter.controllers', [])
     })
 
     .controller('SummaryCtrl', function(moment, $scope, ActivityEventService) {
-        $scope.events = ActivityEventService.getQueue();
+        var grouped_events = (function(){
+            var events = ActivityEventService.getQueue();
+            var groups = {};
+            events.forEach(function(event){
+                var date = event.dateTime.split('T')[0];
+                if(!groups[date]){
+                    groups[date] = [];
+                }
+                
+                groups[date].push(event);
+            });
+
+            return groups;
+        })();
+        
+        $scope.events = grouped_events;
+        $scope.event_dates = Object.keys(grouped_events).sort().reverse();
+
         $scope.format_time = function(secs, type){
             var duration = moment.duration(secs * 1000);
             return duration[type]();
