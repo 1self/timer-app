@@ -42,30 +42,16 @@ angular.module('starter.services', [])
     }])
 
     .service('ActivitiesService', function(){
-        var activities = [{
-            title: 'Meditate'
-        }, {
-            title: 'Exercise'
-        }, {
-            title: 'Meetings'
-        }, {
-            title: 'Tooth brushing'
-        }, {
-            title: 'Sleeping'
-        }, {
-            title: 'Coding'
-        }];
-
         var tags = {
-            "Meditate": {
+            "Meditating": {
                 objectTags: ['self'],
                 actionTags: ['meditate']
             },
-            "Exercise":{
+            "Exercising":{
                 objectTags: ['self'],
                 actionTags: ['exercise']
             },
-            "Meetings":{
+            "Meeting":{
                 objectTags: ['self'],
                 actionTags: ['meet']
             },
@@ -81,13 +67,23 @@ angular.module('starter.services', [])
                 objectTags: ['self'],
                 actionTags: ['code']
             }
-        };
+        },
 
-        var getTags = function(activity_name){
+        activities = (function(){
+            var activities_list = [];
+            Object.keys(tags).forEach(function(key){
+                activities_list.push(
+                    {title: key}
+                );
+            });
+            return activities_list;
+        })(),
+
+        getTags = function(activity_name){
             return tags[activity_name];
-        };
+        },
 
-        var listActivities = function(){
+        listActivities = function(){
             return activities;
         };
 
