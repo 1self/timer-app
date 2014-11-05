@@ -35,6 +35,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                 $http.post(API.endpoint + "/v1/streams", {}, {headers: auth_headers})
                     .success(function(data){
                         window.localStorage.api_credentials = angular.toJson(data);
+                        window.localStorage.last_event_sent_index = -1;
                     })
                     .error(function(data, status, headers, config) {
                         //try again next time :(

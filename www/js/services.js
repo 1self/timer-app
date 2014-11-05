@@ -176,11 +176,11 @@ angular.module('starter.services', [])
             var last_index = getLastSentIndex(),
             new_last_sent_index = last_index + number_of_sent;
             
-            window.localStorage['last_event_sent_index'] = new_last_sent_index;
+            window.localStorage.last_event_sent_index = new_last_sent_index;
         },
 
         getLastSentIndex = function(){
-            return parseInt(window.localStorage['last_event_sent_index']) || -1;
+            return parseInt(window.localStorage.last_event_sent_index);
         },
 
         getUnsentEvents = function(){
