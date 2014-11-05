@@ -30,7 +30,7 @@ angular.module('starter.controllers', [])
                 tags.actionTags.join(',') +
                 "/sum(duration)/daily/barchart";
 
-            window.open(uri);
+                var ref = window.open(uri, '_blank', 'location=yes');
         };
 
 	$scope.showToast = function(message) {
