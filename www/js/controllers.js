@@ -2,7 +2,7 @@ angular.module('starter.controllers', [])
 
     .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, ActivityTimingService, ActivityEventService, API, ActivitiesService) {
 	$scope.activities = ActivityTimingService.getAllActivities();
-
+-
 	$scope.toggleActivity = function(activity) {
 
 	    var status = ActivityTimingService.toggleActivity(activity);
@@ -30,7 +30,7 @@ angular.module('starter.controllers', [])
                 tags.actionTags.join(',') +
                 "/sum(duration)/daily/barchart";
 
-            window.open(uri, '_blank', 'location=no');
+            window.open(uri, '_blank');
         };
 
 	$scope.showToast = function(message) {
