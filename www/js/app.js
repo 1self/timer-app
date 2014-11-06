@@ -59,12 +59,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                 }
             })
 
-            .state('tab.summary', {
-                url: '/summary',
+            .state('tab.history', {
+                url: '/history',
                 views: {
-                    'tab-summary': {
-                        templateUrl: 'templates/tab-summary.html',
-                        controller: 'SummaryCtrl'
+                    'tab-history': {
+                        templateUrl: 'templates/tab-history.html',
+                        controller: 'HistoryCtrl'
                     }
                 }
             })

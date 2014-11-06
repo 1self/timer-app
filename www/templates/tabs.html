@@ -1,12 +1,12 @@
 <style type="text/css">
   .selected {
-    background-color:#0f9d58;
+    background-color:#61b346;
     color: white;
   }
 
   .title, .tabs {
       color: #fff !important;
-      background-color: #800A00 !important;
+      background-color: #00a2d4 !important;
       margin: 0 !important;
   }
 
@@ -49,10 +49,11 @@
   }
 
   .history_duration{
-      color: green;
+      color: #61b346;
   }
 
   .item-center{
+      background-color: #e7e9ee;
       text-align:center;
   }
 
@@ -67,16 +68,9 @@
   </ion-tab>
 
 
-  <!-- Summary Tab -->
-  <ion-tab title="Summary" icon="icon ion-heart" href="#/tab/summary">
-    <ion-nav-view name="tab-summary"></ion-nav-view>
+  <!-- History Tab -->
+  <ion-tab title="History" icon="icon ion-heart" href="#/tab/history">
+    <ion-nav-view name="tab-history"></ion-nav-view>
   </ion-tab>
-
-
-  <!-- <\!-- Account Tab -\-> -->
-  <!-- <ion-tab title="History" icon="icon ion-gear-b" href="#/tab/account"> -->
-  <!--   <ion-nav-view name="tab-account"></ion-nav-view> -->
-  <!-- </ion-tab> -->
-
 
 </ion-tabs>

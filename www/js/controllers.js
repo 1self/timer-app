@@ -47,7 +47,7 @@ angular.module('starter.controllers', [])
 	};
     })
 
-    .controller('SummaryCtrl', function(moment, $scope, ActivityEventService) {
+    .controller('HistoryCtrl', function(moment, $scope, ActivityEventService) {
         var grouped_events = (function(){
             var events = ActivityEventService.getQueue();
             var groups = {};
