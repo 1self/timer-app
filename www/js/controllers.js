@@ -57,7 +57,7 @@ angular.module('starter.controllers', [])
                     groups[date] = [];
                 }
                 
-                groups[date].push(event);
+                groups[date].unshift(event);
             });
 
             return groups;
