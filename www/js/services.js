@@ -193,6 +193,9 @@ angular.module('starter.services', [])
 
         sendEvents = function(){
             var api_credentials = angular.fromJson(window.localStorage.api_credentials),
+            api_headers = {'Authorization': api_credentials.writeToken,
+                           'Content-Type': 'application/json'
+                          },
 
             buildAPIEvent = function(event){
                 var tags = ActivitiesService.getTags(event.activity);
@@ -210,33 +213,23 @@ angular.module('starter.services', [])
             },
 
             poller = function() {
-                if(typeof api_credentials == 'undefined'){
-                    api_credentials = angular.fromJson(window.localStorage.api_credentials);
-                    console.log("Waiting for stream registration");
-                }else{
+                var api_events = [],
+                events = getUnsentEvents();
 
-                    var api_headers = {'Authorization': api_credentials.writeToken,
-                                       'Content-Type': 'application/json'
-                                      },
-
-                    api_events = [],
-                    events = getUnsentEvents();
-
-                    if(0 != events.length){
-                        for(i=0; i < events.length; i++){
-                            api_events.push(buildAPIEvent(events[i]));
-                        }
-                        
-                        $http.post(API.endpoint + "/v1/streams/" + api_credentials.streamid + '/events/batch', 
-                                   api_events, {headers: api_headers})
-                            .success(function(data) {
-                                updateLastSentIndex(api_events.length);
-                            })
-                        
-                            .error(function(data){
-                                //do nothing
-                            });
+                if(0 != events.length){
+                    for(i=0; i < events.length; i++){
+                        api_events.push(buildAPIEvent(events[i]));
                     }
+                    
+                    $http.post(API.endpoint + "/v1/streams/" + api_credentials.streamid + '/events/batch', 
+                               api_events, {headers: api_headers})
+                        .success(function(data) {
+                            updateLastSentIndex(api_events.length);
+                        })
+                    
+                        .error(function(data){
+                            //do nothing
+                        });
                 }
                 
                 $timeout(poller, 5000);
@@ -251,4 +244,54 @@ angular.module('starter.services', [])
             getQueue: getQueue
         };
         
+    })
+
+    .service('AuthenticationService', function($http, API, $ionicPopup, ActivityEventService, $cordovaToast){
+        var showDisclaimer = function(force_show){
+            var api_credentials = window.localStorage.api_credentials;
+
+            if(typeof api_credentials === 'undefined' || force_show){
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Confirm us',
+                    template: "1self Duration uses the 1self cloud to show you smart visualizations of your activity. Once connected you can also share and correlate your data. Your raw data will never be shown and it won't be possible to tell who you are or where you've been. Would you like to connect Duration to the 1self cloud?"
+                });
+                confirmPopup.then(function(res) {
+                    if(res) {
+                        console.log("Authenticated, yay!");
+                        registerStream();
+                        $cordovaToast.show("Authenticating...", 'long', 'bottom')
+                    } else {
+                        window.localStorage.api_credentials = 'Not authenticated';
+                        console.log('Not authenticated :(');
+                    }
+                });
+            }
+        },
+
+        auth_headers = {'Authorization': API.clientId + ":" + API.clientSecret},
+        registerStream = function(){
+            $http.post(API.endpoint + "/v1/streams", {}, {headers: auth_headers})
+                .success(function(data){
+                    window.localStorage.api_credentials = angular.toJson(data);
+                    window.localStorage.last_event_sent_index = -1;
+
+                    //a continuous service to send pending events
+                    ActivityEventService.sendEvents();
+
+                    $cordovaToast.show("Authenticated", 'long', 'bottom')
+                })
+                .error(function(data, status, headers, config) {
+                    //try again next time :(
+                });
+        },
+
+        authenticated = function(){
+            return window.localStorage.api_credentials !== "Not authenticated";
+        };
+
+        return {
+            authenticate: showDisclaimer,
+            authenticated: authenticated
+        };
+
     });

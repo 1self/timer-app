@@ -16,7 +16,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     }
              )
 
-    .run(function($ionicPlatform, $http, API, ActivityEventService) {
+    .run(function($ionicPlatform, AuthenticationService) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -28,22 +28,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                 StatusBar.styleDefault();
             }
 
-            var auth_headers = {'Authorization': API.clientId + ":" + API.clientSecret},
-            api_credentials = window.localStorage.api_credentials;
-
-            if(typeof api_credentials == 'undefined'){
-                $http.post(API.endpoint + "/v1/streams", {}, {headers: auth_headers})
-                    .success(function(data){
-                        window.localStorage.api_credentials = angular.toJson(data);
-                        window.localStorage.last_event_sent_index = -1;
-                    })
-                    .error(function(data, status, headers, config) {
-                        //try again next time :(
-                    });
-            }
-
-            //a continuous service to send pending events
-            ActivityEventService.sendEvents();
+            AuthenticationService.authenticate();
         })
     })
 

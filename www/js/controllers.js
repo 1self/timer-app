@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-    .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, ActivityTimingService, ActivityEventService, API, ActivitiesService) {
+    .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, ActivityTimingService, ActivityEventService, API, ActivitiesService, AuthenticationService) {
 	$scope.activities = ActivityTimingService.getAllActivities();
 
 	$scope.toggleActivity = function(activity) {
@@ -22,15 +22,19 @@ angular.module('starter.controllers', [])
 
         $scope.showChart =  function(activity, $event){
             $event.stopImmediatePropagation();
-            var api_credentials = angular.fromJson(window.localStorage.api_credentials),
-            tags = ActivitiesService.getTags(activity.title),
-            uri = API.endpoint + "/v1/streams/" +
-                api_credentials.streamid + "/events/" +
-                tags.objectTags.join(',') + "/" +
-                tags.actionTags.join(',') +
-                "/sum(duration)/daily/barchart";
+            if(AuthenticationService.authenticated()){
+                var api_credentials = angular.fromJson(window.localStorage.api_credentials),
+                tags = ActivitiesService.getTags(activity.title),
+                uri = API.endpoint + "/v1/streams/" +
+                    api_credentials.streamid + "/events/" +
+                    tags.objectTags.join(',') + "/" +
+                    tags.actionTags.join(',') +
+                    "/sum(duration)/daily/barchart";
 
-            var ref = window.open(uri, '_blank', 'location=yes,closebuttoncaption=Back to App');
+                window.open(uri, '_blank', 'location=yes,closebuttoncaption=Back to App');
+            }else{
+                AuthenticationService.authenticate(true);
+            }
         };
 
 	$scope.showToast = function(message) {
@@ -40,7 +44,7 @@ angular.module('starter.controllers', [])
 		}, function(error) {
 		    console.log("The toast was not shown due to " + error);
 		});
-	}
+	};
     })
 
     .controller('SummaryCtrl', function(moment, $scope, ActivityEventService) {
