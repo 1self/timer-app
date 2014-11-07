@@ -53,31 +53,83 @@ angular.module('starter.services', [])
 
     .service('ActivitiesService', function(){
         var tags = {
-            "Meditating": {
-                objectTags: ['self'],
-                actionTags: ['meditate']
-            },
-            "Exercising":{
-                objectTags: ['self'],
-                actionTags: ['exercise']
-            },
-            "Meeting":{
-                objectTags: ['self'],
-                actionTags: ['meet']
-            },
-            "Tooth brushing": {
-                objectTags: ['teeth'],
-                actionTags: ['brush']
-            },
-            "Sleeping":{
-                objectTags: ['self'],
-                actionTags: ['sleep']
-            },
-            "Coding":{
-                objectTags: ['self'],
-                actionTags: ['code']
-            }
-        },
+    "Coding": {
+        objectTags: ["self"],
+        actionTags: ["code"]
+    },
+    "Commuting": {
+        objectTags: ["self"],
+        actionTags: ["commute"]
+    },
+    "Cooking": {
+        objectTags: ["food"],
+        actionTags: ["cook"]
+    },
+    "Exercising": {
+        objectTags: ["self"],
+        actionTags: ["exercise"]
+    },
+    "Meditating": {
+        objectTags: ["self"],
+        actionTags: ["meditate"]
+    },
+    "Meetings": {
+        objectTags: ["self"],
+        actionTags: ["meet"]
+    },
+    "Partying": {
+        objectTags: ["self"],
+        actionTags: ["party"]
+    },
+    "Playing Instrument": {
+        objectTags: ["instrument"],
+        actionTags: ["play"]
+    },
+    "Playing computer game": {
+        objectTags: ["computer"],
+        actionTags: ["play"]
+    },
+    "Reading": {
+        objectTags: ["text"],
+        actionTags: ["read"]
+    },
+    "Sitting": {
+        objectTags: ["self"],
+        actionTags: ["sit"]
+    },
+    "Sleeping": {
+        objectTags: ["self"],
+        actionTags: ["sleep"]
+    },
+    "Standing": {
+        objectTags: ["self"],
+        actionTags: ["stand"]
+    },
+    "Studying": {
+        objectTags: ["self"],
+        actionTags: ["study"]
+    },
+    "Tooth brushing": {
+        objectTags: ["teeth"],
+        actionTags: ["brush"]
+    },
+    "Tooth flossing": {
+        objectTags: ["teeth"],
+        actionTags: ["floss"]
+    },
+    "TV watching ": {
+        objectTags: ["tv"],
+        actionTags: ["watch"]
+    },
+    "Working": {
+        objectTags: ["self"],
+        actionTags: ["work"]
+    },
+    "Writing": {
+        objectTags: ["text"],
+        actionTags: ["write"]
+    }
+},
 
         activities = (function(){
             var activities_list = [];
