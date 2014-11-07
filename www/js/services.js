@@ -2,7 +2,7 @@ angular.module('starter.services', [])
 
     .filter('millisecondsToStringFilter', function() {
         return function(milliseconds) {
-            if (!milliseconds) return "";
+            if (milliseconds !== 0 && !milliseconds) return "";
 
             var seconds = Math.floor(milliseconds / 1000);
             var minutes = Math.floor(seconds / 60);
@@ -83,7 +83,7 @@ angular.module('starter.services', [])
             var activities_list = [];
             Object.keys(tags).forEach(function(key){
                 activities_list.push(
-                    {title: key}
+                    {title: key, duration: 0}
                 );
             });
             return activities_list;
@@ -130,9 +130,9 @@ angular.module('starter.services', [])
                 status.running = false;
                 status.startDate = activity.startDate;
                 $interval.cancel(activity.interval);
+                activity.duration = status.duration;
                 delete activity.interval;
                 delete activity.startDate;
-                delete activity.duration;
             }
             return status;
         };

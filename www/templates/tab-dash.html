@@ -13,7 +13,7 @@
           <span style="background-image:url('img/{{activity.title}}.png');" class="activity_icon"></span>
 
           <span class="activity_title">{{activity.title}} </span>
-          <span ng-if="activity.interval != undefined" class="activity_duration">{{ activity.duration | millisecondsToStringFilter}}</span>
+          <span class="activity_duration">{{ activity.duration | millisecondsToStringFilter}}</span>
         </div>
       </ion-item>
     </ion-list>
