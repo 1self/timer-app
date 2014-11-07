@@ -252,7 +252,7 @@ angular.module('starter.services', [])
 
             if(typeof api_credentials === 'undefined' || force_show){
                 var confirmPopup = $ionicPopup.confirm({
-                    title: 'Confirm us',
+                    title: 'Duration Data Policy',
                     template: "1self Duration uses the 1self cloud to show you smart visualizations of your activity. Once connected you can also share and correlate your data. Your raw data will never be shown and it won't be possible to tell who you are or where you've been. Would you like to connect Duration to the 1self cloud?"
                 });
                 confirmPopup.then(function(res) {

@@ -57,7 +57,7 @@ angular.module('starter.controllers', [])
 
 
 
-    .controller('ChartsCtrl', function(API, $scope, ActivitiesService, AuthenticationService, $sce) {
+    .controller('ChartsCtrl', function(API, $scope, ActivitiesService, AuthenticationService) {
         $scope.activities = ActivitiesService.listActivities();
         $scope.chart = {};
 
@@ -72,7 +72,7 @@ angular.module('starter.controllers', [])
                     tags.actionTags.join(',') +
                     "/sum(duration)/daily/barchart";
 
-                $scope.chart.url = $sce.trustAsResourceUrl(uri);
+                window.open(uri, '_blank', 'location=yes,closebuttoncaption=Back to App');
             }else{
                 AuthenticationService.authenticate(true);
             }
