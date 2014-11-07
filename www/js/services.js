@@ -286,7 +286,8 @@ angular.module('starter.services', [])
         },
 
         authenticated = function(){
-            return window.localStorage.api_credentials !== "Not authenticated";
+            var api_credentials = window.localStorage.api_credentials;
+            return (api_credentials !== "Not authenticated") && (typeof api_credentials !== 'undefined');
         };
 
         return {
