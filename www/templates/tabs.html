@@ -57,6 +57,11 @@
       text-align:center;
   }
 
+  .chart_iframe{
+      height: 100%;
+      width: 100%;
+  }
+
 </style>
 
 <ion-tabs class="tabs-icon-top">
@@ -67,9 +72,13 @@
     <ion-nav-view name="tab-dash"></ion-nav-view>
   </ion-tab>
 
+  <!-- Charts Tab -->
+  <ion-tab title="Charts" icon="icon ion-ios7-pulse-strong" href="#/tab/charts">
+    <ion-nav-view name="tab-charts"></ion-nav-view>
+  </ion-tab>
 
   <!-- History Tab -->
-  <ion-tab title="History" icon="icon ion-heart" href="#/tab/history">
+  <ion-tab title="History" icon="icon ion-clock" href="#/tab/history">
     <ion-nav-view name="tab-history"></ion-nav-view>
   </ion-tab>
 

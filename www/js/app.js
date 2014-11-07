@@ -72,12 +72,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     }
                 }
             })
-            .state('tab.friend-detail', {
-                url: '/friend/:friendId',
+            .state('tab.charts', {
+                url: '/charts',
                 views: {
-                    'tab-friends': {
-                        templateUrl: 'templates/friend-detail.html',
-                        controller: 'FriendDetailCtrl'
+                    'tab-charts': {
+                        templateUrl: 'templates/tab-charts.html',
+                        controller: 'ChartsCtrl'
                     }
                 }
             })

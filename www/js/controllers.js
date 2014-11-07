@@ -20,23 +20,6 @@ angular.module('starter.controllers', [])
 	    }
 	};
 
-        $scope.showChart =  function(activity, $event){
-            $event.stopImmediatePropagation();
-            if(AuthenticationService.authenticated()){
-                var api_credentials = angular.fromJson(window.localStorage.api_credentials),
-                tags = ActivitiesService.getTags(activity.title),
-                uri = API.endpoint + "/v1/streams/" +
-                    api_credentials.streamid + "/events/" +
-                    tags.objectTags.join(',') + "/" +
-                    tags.actionTags.join(',') +
-                    "/sum(duration)/daily/barchart";
-
-                window.open(uri, '_blank', 'location=yes,closebuttoncaption=Back to App');
-            }else{
-                AuthenticationService.authenticate(true);
-            }
-        };
-
 	$scope.showToast = function(message) {
 	    $cordovaToast.show(message, 'long', 'bottom')
 		.then(function(success) {
@@ -69,5 +52,29 @@ angular.module('starter.controllers', [])
         $scope.format_time = function(secs, type){
             var duration = moment.duration(secs * 1000);
             return duration[type]();
+        };
+    })
+
+
+
+    .controller('ChartsCtrl', function(API, $scope, ActivitiesService, AuthenticationService, $sce) {
+        $scope.activities = ActivitiesService.listActivities();
+        $scope.chart = {};
+
+        $scope.showChart =  function(){
+            var activity = $scope.chart.type;
+            if(AuthenticationService.authenticated()){
+                var api_credentials = angular.fromJson(window.localStorage.api_credentials),
+                tags = ActivitiesService.getTags(activity),
+                uri = API.endpoint + "/v1/streams/" +
+                    api_credentials.streamid + "/events/" +
+                    tags.objectTags.join(',') + "/" +
+                    tags.actionTags.join(',') +
+                    "/sum(duration)/daily/barchart";
+
+                $scope.chart.url = $sce.trustAsResourceUrl(uri);
+            }else{
+                AuthenticationService.authenticate(true);
+            }
         };
     });

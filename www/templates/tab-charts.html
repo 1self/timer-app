@@ -1,0 +1,16 @@
+<ion-view title="Charts">
+  <ion-content overflow-scroll="true">
+    <div class="list">
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Select Activity
+        </div>
+        <select ng-change="showChart()" ng-options="activity.title as activity.title for activity in activities" ng-model="chart.type">
+        </select>
+      </label>
+    </div>
+
+    <iframe class="chart_iframe" ng-src="{{chart.url}}"></iframe>
+
+  </ion-content>
+</ion-view>
