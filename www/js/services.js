@@ -2,7 +2,7 @@ angular.module('starter.services', [])
 
     .filter('millisecondsToStringFilter', function() {
         return function(milliseconds) {
-            if (!milliseconds) return "";
+            if (milliseconds !== 0 && !milliseconds) return "";
 
             var seconds = Math.floor(milliseconds / 1000);
             var minutes = Math.floor(seconds / 60);
@@ -53,37 +53,89 @@ angular.module('starter.services', [])
 
     .service('ActivitiesService', function(){
         var tags = {
-            "Meditating": {
-                objectTags: ['self'],
-                actionTags: ['meditate']
-            },
-            "Exercising":{
-                objectTags: ['self'],
-                actionTags: ['exercise']
-            },
-            "Meeting":{
-                objectTags: ['self'],
-                actionTags: ['meet']
-            },
-            "Tooth brushing": {
-                objectTags: ['teeth'],
-                actionTags: ['brush']
-            },
-            "Sleeping":{
-                objectTags: ['self'],
-                actionTags: ['sleep']
-            },
-            "Coding":{
-                objectTags: ['self'],
-                actionTags: ['code']
-            }
-        },
+    "Coding": {
+        objectTags: ["self"],
+        actionTags: ["code"]
+    },
+    "Commuting": {
+        objectTags: ["self"],
+        actionTags: ["commute"]
+    },
+    "Cooking": {
+        objectTags: ["food"],
+        actionTags: ["cook"]
+    },
+    "Exercising": {
+        objectTags: ["self"],
+        actionTags: ["exercise"]
+    },
+    "Meditating": {
+        objectTags: ["self"],
+        actionTags: ["meditate"]
+    },
+    "Meetings": {
+        objectTags: ["self"],
+        actionTags: ["meet"]
+    },
+    "Partying": {
+        objectTags: ["self"],
+        actionTags: ["party"]
+    },
+    "Playing Instrument": {
+        objectTags: ["instrument"],
+        actionTags: ["play"]
+    },
+    "Playing computer game": {
+        objectTags: ["computer"],
+        actionTags: ["play"]
+    },
+    "Reading": {
+        objectTags: ["text"],
+        actionTags: ["read"]
+    },
+    "Sitting": {
+        objectTags: ["self"],
+        actionTags: ["sit"]
+    },
+    "Sleeping": {
+        objectTags: ["self"],
+        actionTags: ["sleep"]
+    },
+    "Standing": {
+        objectTags: ["self"],
+        actionTags: ["stand"]
+    },
+    "Studying": {
+        objectTags: ["self"],
+        actionTags: ["study"]
+    },
+    "Tooth brushing": {
+        objectTags: ["teeth"],
+        actionTags: ["brush"]
+    },
+    "Tooth flossing": {
+        objectTags: ["teeth"],
+        actionTags: ["floss"]
+    },
+    "TV watching ": {
+        objectTags: ["tv"],
+        actionTags: ["watch"]
+    },
+    "Working": {
+        objectTags: ["self"],
+        actionTags: ["work"]
+    },
+    "Writing": {
+        objectTags: ["text"],
+        actionTags: ["write"]
+    }
+},
 
         activities = (function(){
             var activities_list = [];
             Object.keys(tags).forEach(function(key){
                 activities_list.push(
-                    {title: key}
+                    {title: key, duration: 0}
                 );
             });
             return activities_list;
@@ -130,9 +182,9 @@ angular.module('starter.services', [])
                 status.running = false;
                 status.startDate = activity.startDate;
                 $interval.cancel(activity.interval);
+                activity.duration = status.duration;
                 delete activity.interval;
                 delete activity.startDate;
-                delete activity.duration;
             }
             return status;
         };
@@ -252,7 +304,7 @@ angular.module('starter.services', [])
 
             if(typeof api_credentials === 'undefined' || force_show){
                 var confirmPopup = $ionicPopup.confirm({
-                    title: 'Confirm us',
+                    title: 'Duration Data Policy',
                     template: "1self Duration uses the 1self cloud to show you smart visualizations of your activity. Once connected you can also share and correlate your data. Your raw data will never be shown and it won't be possible to tell who you are or where you've been. Would you like to connect Duration to the 1self cloud?"
                 });
                 confirmPopup.then(function(res) {
