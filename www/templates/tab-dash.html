@@ -6,10 +6,10 @@
           <div class="activity_title">{{activity.title}} </div>
           <div class="activity_duration">
             <div class="duration_time" ng-class="{'duration_time_selected': activity.interval != undefined}">
-              {{ activity.duration | millisecondsToStringFilter}}
+              {{ activity.duration | millisecondsToStringFilter | durationPartFilter}}
             </div>
             <div class="circle" ng-class="{'duration_seconds_selected': activity.interval != undefined}">
-              <div class="duration_seconds">23</div>
+              <div class="duration_seconds">{{ activity.duration | millisecondsToStringFilter | tenthsPartFilter}}</div>
             </div>
           </div>
         </div>
