@@ -1,18 +1,17 @@
-
 <ion-view title="DURATION">
-<!-- 
-    <ion-nav-buttons side="right">
-        <button class="button" ng-click="addTimerEvent()">
-            +
-        </button>
-    </ion-nav-buttons> -->
   <ion-content class="padding custom-content">
     <ion-list>
       <ion-item ng-repeat="activity in activities" type="item-text-wrap" ng-class="{'selected': activity.interval != undefined}">
         <div class="item_description" ng-click="toggleActivity(activity)">
-
-          <span class="activity_title">{{activity.title}} </span>
-          <span class="activity_duration">{{ activity.duration | millisecondsToStringFilter}}</span>
+          <div class="activity_title">{{activity.title}} </div>
+          <div class="activity_duration">
+            <div class="duration_time" ng-class="{'duration_time_selected': activity.interval != undefined}">
+              {{ activity.duration | millisecondsToStringFilter | durationPartFilter}}
+            </div>
+            <div class="circle" ng-class="{'duration_seconds_selected': activity.interval != undefined}">
+              <div class="duration_seconds">{{ activity.duration | millisecondsToStringFilter | tenthsPartFilter}}</div>
+            </div>
+          </div>
         </div>
       </ion-item>
     </ion-list>

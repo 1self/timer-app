@@ -7,7 +7,7 @@ angular.module('starter.controllers', [])
 
 	    var status = ActivityTimingService.toggleActivity(activity);
 	    if (!status.running) {
-		var message = status.title + " for " + $filter('millisecondsToStringFilter')(status.duration);
+		var message = status.title + " for " + $filter('durationPartFilter')($filter('millisecondsToStringFilter')(status.duration));
 		try {
 		    $scope.showToast(message);
 		} catch (e) {
