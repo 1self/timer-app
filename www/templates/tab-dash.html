@@ -12,7 +12,7 @@
         <div class="item_description" ng-click="toggleActivity(activity)">
 
           <span class="activity_title">{{activity.title}} </span>
-          <span class="activity_duration">{{ activity.duration | millisecondsToStringFilter}}</span>
+          <span class="activity_duration">{{ activity.duration | millisecondsToStringFilter | durationPartFilter}}</span>
         </div>
       </ion-item>
     </ion-list>

@@ -26,6 +26,13 @@ angular.module('starter.services', [])
             return durationString;
         };
     })
+    
+    .filter('durationPartFilter', function(){
+        return function(str) { return str.substr(0, 8); }
+    })
+    .filter('tenthsPartFilter', function(){
+        return function(str) { return str.substr(8, str.length); }
+    })
 
     .filter('buildEventFilter', function() {		
         return function(activity, status) {		
