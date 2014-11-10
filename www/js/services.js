@@ -5,6 +5,7 @@ angular.module('starter.services', [])
             if (milliseconds !== 0 && !milliseconds) return "";
 
             var seconds = Math.floor(milliseconds / 1000);
+            milliseconds = Math.floor((milliseconds % 1000)/100);
             var minutes = Math.floor(seconds / 60);
             seconds = seconds - (minutes * 60);
             var hours = Math.floor(minutes / 60);
@@ -21,7 +22,7 @@ angular.module('starter.services', [])
             }
 
             var durationString = '';
-            durationString += zeroPad(hours, 2) + ':' + zeroPad(minutes, 2) + ':' + zeroPad(seconds, 2);
+            durationString += zeroPad(hours, 2) + ':' + zeroPad(minutes, 2) + ':' + zeroPad(seconds, 2) + "   " + zeroPad(milliseconds, 2);
             return durationString;
         };
     })
@@ -174,7 +175,7 @@ angular.module('starter.services', [])
             if (!activity.interval) {
                 activity.startDate = moment();
                 updateActivityTime();
-                activity.interval = $interval(updateActivityTime, 1000);
+                activity.interval = $interval(updateActivityTime, 100);
                 status.running = true;
                 status.startDate = activity.startDate;
             } else {
