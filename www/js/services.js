@@ -22,7 +22,7 @@ angular.module('starter.services', [])
             }
 
             var durationString = '';
-            durationString += zeroPad(hours, 2) + ':' + zeroPad(minutes, 2) + ':' + zeroPad(seconds, 2) + "   " + zeroPad(milliseconds, 2);
+            durationString += zeroPad(hours, 2) + ':' + zeroPad(minutes, 2) + ':' + zeroPad(seconds, 2) + ":" + zeroPad(milliseconds, 2);
             return durationString;
         };
     })
@@ -31,7 +31,7 @@ angular.module('starter.services', [])
         return function(str) { return str.substr(0, 8); }
     })
     .filter('tenthsPartFilter', function(){
-        return function(str) { return str.substr(8, str.length); }
+        return function(str) { return str.substr(9, str.length); }
     })
 
     .filter('buildEventFilter', function() {		
