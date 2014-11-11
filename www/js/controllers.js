@@ -1,20 +1,25 @@
 angular.module('starter.controllers', [])
 
-    .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, ActivityTimingService, ActivityEventService, API, ActivitiesService, AuthenticationService) {
-	$scope.activities = ActivityTimingService.getAllActivities();
+    .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, ActivityTimingService, ActivityEventService, API, ActivitiesService) {
+	var activities = ActivitiesService.listActivities();
+        $scope.activities = [];
+
+        activities.forEach(function(activity){
+            var updated_activity = ActivityTimingService.updateActivity(activity);
+            $scope.activities.push(updated_activity);
+        });
 
 	$scope.toggleActivity = function(activity) {
-
-	    var status = ActivityTimingService.toggleActivity(activity);
-	    if (!status.running) {
-		var message = status.title + " for " + $filter('durationPartFilter')($filter('millisecondsToStringFilter')(status.duration));
+	    var activity = ActivityTimingService.updateActivity(activity, "toggle");
+	    if (!activity.interval) {
+		var message = activity.title + " for " + $filter('durationPartFilter')($filter('millisecondsToStringFilter')(activity.duration));
 		try {
 		    $scope.showToast(message);
 		} catch (e) {
 		    console.error(e);
 		}
 
-                var event = $filter('buildEventFilter')(activity, status);
+                var event = $filter('buildEventFilter')(activity);
 
 		ActivityEventService.queueEvent(event);
 	    }

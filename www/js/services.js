@@ -26,7 +26,7 @@ angular.module('starter.services', [])
             return durationString;
         };
     })
-    
+
     .filter('durationPartFilter', function(){
         return function(str) { return str.substr(0, 8); }
     })
@@ -35,11 +35,11 @@ angular.module('starter.services', [])
     })
 
     .filter('buildEventFilter', function() {		
-        return function(activity, status) {		
+        return function(activity) {		
             return {		
                 "activity": activity.title,		
-                "dateTime": status.startDate,		
-                "duration": status.duration/1000		
+                "dateTime": activity.startDate,		
+                "duration": activity.duration/1000		
             };		
         };		
     })
@@ -61,83 +61,83 @@ angular.module('starter.services', [])
 
     .service('ActivitiesService', function(){
         var tags = {
-    "Coding": {
-        objectTags: ["self"],
-        actionTags: ["code"]
-    },
-    "Commuting": {
-        objectTags: ["self"],
-        actionTags: ["commute"]
-    },
-    "Cooking": {
-        objectTags: ["food"],
-        actionTags: ["cook"]
-    },
-    "Exercising": {
-        objectTags: ["self"],
-        actionTags: ["exercise"]
-    },
-    "Meditating": {
-        objectTags: ["self"],
-        actionTags: ["meditate"]
-    },
-    "Meetings": {
-        objectTags: ["self"],
-        actionTags: ["meet"]
-    },
-    "Partying": {
-        objectTags: ["self"],
-        actionTags: ["party"]
-    },
-    "Playing Instrument": {
-        objectTags: ["instrument"],
-        actionTags: ["play"]
-    },
-    "Playing computer game": {
-        objectTags: ["computer"],
-        actionTags: ["play"]
-    },
-    "Reading": {
-        objectTags: ["text"],
-        actionTags: ["read"]
-    },
-    "Sitting": {
-        objectTags: ["self"],
-        actionTags: ["sit"]
-    },
-    "Sleeping": {
-        objectTags: ["self"],
-        actionTags: ["sleep"]
-    },
-    "Standing": {
-        objectTags: ["self"],
-        actionTags: ["stand"]
-    },
-    "Studying": {
-        objectTags: ["self"],
-        actionTags: ["study"]
-    },
-    "Tooth brushing": {
-        objectTags: ["teeth"],
-        actionTags: ["brush"]
-    },
-    "Tooth flossing": {
-        objectTags: ["teeth"],
-        actionTags: ["floss"]
-    },
-    "TV watching ": {
-        objectTags: ["tv"],
-        actionTags: ["watch"]
-    },
-    "Working": {
-        objectTags: ["self"],
-        actionTags: ["work"]
-    },
-    "Writing": {
-        objectTags: ["text"],
-        actionTags: ["write"]
-    }
-},
+            "Coding": {
+                objectTags: ["self"],
+                actionTags: ["code"]
+            },
+            "Commuting": {
+                objectTags: ["self"],
+                actionTags: ["commute"]
+            },
+            "Cooking": {
+                objectTags: ["food"],
+                actionTags: ["cook"]
+            },
+            "Exercising": {
+                objectTags: ["self"],
+                actionTags: ["exercise"]
+            },
+            "Meditating": {
+                objectTags: ["self"],
+                actionTags: ["meditate"]
+            },
+            "Meetings": {
+                objectTags: ["self"],
+                actionTags: ["meet"]
+            },
+            "Partying": {
+                objectTags: ["self"],
+                actionTags: ["party"]
+            },
+            "Playing Instrument": {
+                objectTags: ["instrument"],
+                actionTags: ["play"]
+            },
+            "Playing computer game": {
+                objectTags: ["computer"],
+                actionTags: ["play"]
+            },
+            "Reading": {
+                objectTags: ["text"],
+                actionTags: ["read"]
+            },
+            "Sitting": {
+                objectTags: ["self"],
+                actionTags: ["sit"]
+            },
+            "Sleeping": {
+                objectTags: ["self"],
+                actionTags: ["sleep"]
+            },
+            "Standing": {
+                objectTags: ["self"],
+                actionTags: ["stand"]
+            },
+            "Studying": {
+                objectTags: ["self"],
+                actionTags: ["study"]
+            },
+            "Tooth brushing": {
+                objectTags: ["teeth"],
+                actionTags: ["brush"]
+            },
+            "Tooth flossing": {
+                objectTags: ["teeth"],
+                actionTags: ["floss"]
+            },
+            "TV watching ": {
+                objectTags: ["tv"],
+                actionTags: ["watch"]
+            },
+            "Working": {
+                objectTags: ["self"],
+                actionTags: ["work"]
+            },
+            "Writing": {
+                objectTags: ["text"],
+                actionTags: ["write"]
+            }
+        },
 
         activities = (function(){
             var activities_list = [];
@@ -164,54 +164,66 @@ angular.module('starter.services', [])
     })
 
     .service('ActivityTimingService', function(moment, $interval, ActivitiesService) {
-        var activities = ActivitiesService.listActivities();
-
-        var toggleActivity = function(activity) {
+        var updateActivity = function(activity, action) {
             var updateActivityTime = function() {
                 var elapsedTime = moment.duration(moment().diff(activity.startDate));
                 activity.duration = elapsedTime.asMilliseconds();
             };
 
-            var status = {
-                running: false,
-                duration: 0,
-                title: activity.title,
-                startDate: null
+            var getActiveActivities = function(){
+                var active_activities = window.localStorage.active_activities;
+                if (active_activities) {
+                    return angular.fromJson(active_activities);
+                } else {
+                    return {};
+                }
             };
 
-            if (!activity.interval) {
-                activity.startDate = moment();
-                updateActivityTime();
-                activity.interval = $interval(updateActivityTime, 100);
-                status.running = true;
-                status.startDate = activity.startDate;
-            } else {
-                status.duration = activity.duration;
-                status.running = false;
-                status.startDate = activity.startDate;
-                $interval.cancel(activity.interval);
-                activity.duration = status.duration;
-                delete activity.interval;
-                delete activity.startDate;
+            var storeActiveActivity = function(activity){
+                var active_activities = getActiveActivities();
+                active_activities[activity.title] = {startDate: activity.startDate};
+                window.localStorage.active_activities = angular.toJson(active_activities);
+            };
+
+            var removeActiveActivity = function(activity){
+                var active_activities = getActiveActivities();
+                delete active_activities[activity.title];
+                window.localStorage.active_activities = angular.toJson(active_activities);
+            };
+
+            var toggleActivity = function(){
+                if (!activity.interval) {
+                    activity.startDate = moment();
+                    updateActivityTime();
+                    activity.interval = $interval(updateActivityTime, 100);
+                    storeActiveActivity(activity);
+                } else {
+                    $interval.cancel(activity.interval);
+                    delete activity.interval;
+                    removeActiveActivity(activity);
+                }
+            };
+
+            var updateActiveActivity = function(){
+                var active_activities = getActiveActivities();
+                if(activity.title in active_activities){
+                    updateActivityTime();
+                    activity.interval = $interval(updateActivityTime, 100);
+                }
+            };
+
+            if("toggle" == activity){
+                toggleActivity();
             }
-            return status;
-        };
+            else{
+                updateActiveActivity();
+            }
 
-        var getAllActivities = function() {
-            return activities;
-        }
-
-        var getStatus = function(activity) {
-            return {
-                title: activity.title,
-                duration: activity.duration
-            };
+            return activity;
         };
 
         return {
-            toggleActivity: toggleActivity,
-            getAllActivities: getAllActivities,
-            getStatus: getStatus
+            updateActivity: updateActivity
         };
 
     })
@@ -261,7 +273,6 @@ angular.module('starter.services', [])
                 var tags = ActivitiesService.getTags(event.activity);
                 return {
                     "dateTime": event.dateTime,
-                    "streamid": api_credentials.streamid,
                     "source": "Timer App",
                     "version": "0.0.1",
                     "objectTags": tags.objectTags,
