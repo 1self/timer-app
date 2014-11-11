@@ -168,30 +168,30 @@ angular.module('starter.services', [])
             var updateActivityTime = function() {
                 var elapsedTime = moment.duration(moment().diff(activity.startDate));
                 activity.duration = elapsedTime.asMilliseconds();
-            };
+            },
 
-            var getActiveActivities = function(){
+            getActiveActivities = function(){
                 var active_activities = window.localStorage.active_activities;
                 if (active_activities) {
                     return angular.fromJson(active_activities);
                 } else {
                     return {};
                 }
-            };
+            },
 
-            var storeActiveActivity = function(activity){
+            storeActiveActivity = function(activity){
                 var active_activities = getActiveActivities();
                 active_activities[activity.title] = {startDate: activity.startDate};
                 window.localStorage.active_activities = angular.toJson(active_activities);
-            };
+            },
 
-            var removeActiveActivity = function(activity){
+            removeActiveActivity = function(activity){
                 var active_activities = getActiveActivities();
                 delete active_activities[activity.title];
                 window.localStorage.active_activities = angular.toJson(active_activities);
-            };
+            },
 
-            var toggleActivity = function(){
+            toggleActivity = function(){
                 if (!activity.interval) {
                     activity.startDate = moment();
                     updateActivityTime();
@@ -202,17 +202,19 @@ angular.module('starter.services', [])
                     delete activity.interval;
                     removeActiveActivity(activity);
                 }
-            };
+            },
 
-            var updateActiveActivity = function(){
+            updateActiveActivity = function(){
                 var active_activities = getActiveActivities();
                 if(activity.title in active_activities){
+                    activity.startDate = active_activities[activity.title].startDate;
                     updateActivityTime();
                     activity.interval = $interval(updateActivityTime, 100);
                 }
             };
 
-            if("toggle" == activity){
+            //main
+            if("toggle" == action){
                 toggleActivity();
             }
             else{
@@ -228,7 +230,7 @@ angular.module('starter.services', [])
 
     })
 
-    .service('ActivityEventService', function($http, $timeout, API, $filter, ActivitiesService) {
+    .service('EventSendService', function($http, $timeout, API, $filter, ActivitiesService) {
         var getQueue = function() {
             var queueString = window.localStorage.events;
             if (queueString) {
@@ -252,7 +254,12 @@ angular.module('starter.services', [])
         },
 
         getLastSentIndex = function(){
-            return parseInt(window.localStorage.last_event_sent_index);
+            var last_event_sent_index = window.localStorage.last_event_sent_index;
+            if(typeof last_event_sent_index == 'undefined'){
+                return -1;
+            }else{
+                return parseInt(last_event_sent_index);
+            }
         },
 
         getUnsentEvents = function(){
@@ -317,7 +324,7 @@ angular.module('starter.services', [])
         
     })
 
-    .service('AuthenticationService', function($http, API, $ionicPopup, ActivityEventService, $cordovaToast){
+    .service('AuthenticationService', function($http, API, $ionicPopup, $cordovaToast, EventSendService){
         var showDisclaimer = function(force_show){
             var api_credentials = window.localStorage.api_credentials;
 
@@ -347,7 +354,7 @@ angular.module('starter.services', [])
                     window.localStorage.last_event_sent_index = -1;
 
                     //a continuous service to send pending events
-                    ActivityEventService.sendEvents();
+                    EventSendService.sendEvents();
 
                     $cordovaToast.show("Authenticated", 'long', 'bottom')
                 })

@@ -16,7 +16,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     }
              )
 
-    .run(function($ionicPlatform, AuthenticationService, ActivityEventService) {
+    .run(function($ionicPlatform, AuthenticationService, EventSendService) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -29,7 +29,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             }
 
             if(AuthenticationService.authenticated()){
-                ActivityEventService.sendEvents();
+                EventSendService.sendEvents();
             }else{
                 AuthenticationService.authenticate();
             }

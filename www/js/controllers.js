@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-    .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, ActivityTimingService, ActivityEventService, API, ActivitiesService) {
+    .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, ActivityTimingService, EventSendService, API, ActivitiesService) {
 	var activities = ActivitiesService.listActivities();
         $scope.activities = [];
 
@@ -21,7 +21,7 @@ angular.module('starter.controllers', [])
 
                 var event = $filter('buildEventFilter')(activity);
 
-		ActivityEventService.queueEvent(event);
+		EventSendService.queueEvent(event);
 	    }
 	};
 
@@ -35,9 +35,9 @@ angular.module('starter.controllers', [])
 	};
     })
 
-    .controller('HistoryCtrl', function(moment, $scope, ActivityEventService) {
+    .controller('HistoryCtrl', function(moment, $scope, EventSendService) {
         var grouped_events = (function(){
-            var events = ActivityEventService.getQueue();
+            var events = EventSendService.getQueue();
             var groups = {};
             events.forEach(function(event){
                 var date = event.dateTime.split('T')[0];
