@@ -315,21 +315,23 @@ angular.module('starter.services', [])
 })
 
 .service('AuthenticationService', function($http, API, $ionicPopup, ActivityEventService, $cordovaToast) {
-    var onConfirm = function(res) {
-        if (res) {
-            console.log("Authenticated, yay!");
-            registerStream();
-            try {
-                $cordovaToast.show("Authenticating...", 'long', 'bottom');
-            } catch (e) {
-                console.error(new Error(e));
-            }
-        } else {
-            window.localStorage.api_credentials = 'Not authenticated';
-            console.log('Not authenticated :(');
-        }
-    };
-    var showDisclaimer = function(force_show) {
+
+    var showDisclaimer = function(force_show, callback) {
+            var onConfirm = function(res) {
+                if (res) {
+                    console.log("Authenticated, yay!");
+                    registerStream();
+                    try {
+                        $cordovaToast.show("Authenticating...", 'long', 'bottom');
+                    } catch (e) {
+                        console.error(new Error(e));
+                    }
+                } else {
+                    window.localStorage.api_credentials = 'Not authenticated';
+                    console.log('Not authenticated :(');
+                }
+                if(callback) callback(res);
+            };
             var api_credentials = window.localStorage.api_credentials;
 
             if (typeof api_credentials === 'undefined' || force_show) {

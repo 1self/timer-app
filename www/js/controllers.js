@@ -57,13 +57,22 @@ angular.module('starter.controllers', [])
 
 
 
-    .controller('ChartsCtrl', function(API, $scope, ActivitiesService, AuthenticationService) {
+    .controller('ChartsCtrl', function($scope, $location, API, ActivitiesService, AuthenticationService) {
         $scope.activities = ActivitiesService.listActivities();
         $scope.chart = {};
 
+        var init = function() {
+            if(!AuthenticationService.authenticated()) {
+                //show
+                AuthenticationService.authenticate(true, function(res){
+                    if(!res) $location.path('/dash');
+                });
+            }
+        };
+        init();
+
         $scope.showChart =  function(){
             var activity = $scope.chart.type;
-            if(AuthenticationService.authenticated()){
                 var api_credentials = angular.fromJson(window.localStorage.api_credentials),
                 tags = ActivitiesService.getTags(activity),
                 uri = API.endpoint + "/v1/streams/" +
@@ -73,8 +82,5 @@ angular.module('starter.controllers', [])
                     "/sum(duration)/daily/barchart";
 
                 window.open(uri, '_blank', 'location=yes,closebuttoncaption=Back to App');
-            }else{
-                AuthenticationService.authenticate(true);
-            }
         };
     });
