@@ -1,4 +1,4 @@
-angular.module('starter.services', [])
+angular.module('duration.services', [])
 
 .filter('millisecondsToStringFilter', function() {
     return function(milliseconds) {

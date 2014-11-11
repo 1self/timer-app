@@ -1,7 +1,7 @@
 {
-  "name": "timerapp",
-  "version": "1.0.0",
-  "description": "TimerApp: An Ionic project",
+  "name": "Duration by 1self",
+  "version": "0.0.1",
+  "description": "",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^0.7.1",

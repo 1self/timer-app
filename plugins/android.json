@@ -13,11 +13,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+                            "xml": "<feature name=\"Toast\"><param name=\"android-package\" value=\"nl.xservices.plugins.Toast\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Toast\"><param name=\"android-package\" value=\"nl.xservices.plugins.Toast\" /></feature>",
+                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
                         },
                         {
@@ -30,32 +30,27 @@
                         }
                     ]
                 }
-            },
-            "AndroidManifest.xml": {
-                "parents": {
-                    "/*": []
-                }
             }
         }
     },
     "installed_plugins": {
         "com.ionic.keyboard": {
-            "PACKAGE_NAME": "com.ionicframework.timerapp890569"
-        },
-        "org.apache.cordova.console": {
-            "PACKAGE_NAME": "com.ionicframework.timerapp890569"
-        },
-        "org.apache.cordova.device": {
-            "PACKAGE_NAME": "com.ionicframework.timerapp890569"
+            "PACKAGE_NAME": "com.oneself.duration"
         },
         "nl.x-services.plugins.toast": {
-            "PACKAGE_NAME": "com.ionicframework.timerapp890569"
+            "PACKAGE_NAME": "com.oneself.duration"
+        },
+        "org.apache.cordova.console": {
+            "PACKAGE_NAME": "com.oneself.duration"
+        },
+        "org.apache.cordova.device": {
+            "PACKAGE_NAME": "com.oneself.duration"
         },
         "org.apache.cordova.inappbrowser": {
-            "PACKAGE_NAME": "com.ionicframework.timerapp890569"
+            "PACKAGE_NAME": "com.oneself.duration"
         },
         "org.apache.cordova.statusbar": {
-            "PACKAGE_NAME": "com.ionicframework.timerapp890569"
+            "PACKAGE_NAME": "com.oneself.duration"
         }
     },
     "dependent_plugins": {}

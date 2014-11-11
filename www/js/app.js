@@ -8,7 +8,7 @@
 
 
 
-angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'angularMoment'])
+angular.module('duration', ['ionic', 'ngCordova', 'duration.controllers', 'duration.services', 'angularMoment'])
 
     .constant("API",{endpoint: "http://api-test.1self.co",
                      clientId: "timerapp",
