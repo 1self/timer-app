@@ -5,7 +5,7 @@ angular.module('starter.services', [])
             if (milliseconds !== 0 && !milliseconds) return "";
 
             var seconds = Math.floor(milliseconds / 1000);
-            milliseconds = Math.floor((milliseconds % 1000)/100);
+            milliseconds = Math.floor((milliseconds % 1000) / 100);
             var minutes = Math.floor(seconds / 60);
             seconds = seconds - (minutes * 60);
             var hours = Math.floor(minutes / 60);
@@ -27,12 +27,17 @@ angular.module('starter.services', [])
         };
     })
 
-    .filter('durationPartFilter', function(){
-        return function(str) { return str.substr(0, 8); }
+    .filter('durationPartFilter', function() {
+        return function(str) {
+            return str.substr(0, 8);
+        }
     })
-    .filter('tenthsPartFilter', function(){
-        return function(str) { return str.substr(9, str.length); }
+    .filter('tenthsPartFilter', function() {
+        return function(str) {
+            return str.substr(9, str.length);
+        }
     })
+
 
     .filter('buildEventFilter', function() {		
         return function(activity) {		
@@ -44,22 +49,22 @@ angular.module('starter.services', [])
         };		
     })
 
-    .filter('humanize', ['moment', function(moment){
+    .filter('humanize', ['moment', function(moment) {
         moment.locale('en', {
-            calendar : {
-                lastDay : '[Yesterday]',
-                sameDay : '[Today]',
-                lastWeek : '[Last] dddd LL',
-                sameElse : 'LL'
+            calendar: {
+                lastDay: '[Yesterday]',
+                sameDay: '[Today]',
+                lastWeek: '[Last] dddd LL',
+                sameElse: 'LL'
             }
         });
 
-        return function(date){
+        return function(date) {
             return moment(date).calendar();
         };
     }])
 
-    .service('ActivitiesService', function(){
+    .service('ActivitiesService', function() {
         var tags = {
             "Coding": {
                 objectTags: ["self"],
@@ -139,21 +144,22 @@ angular.module('starter.services', [])
             }
         },
 
-        activities = (function(){
+        activities = (function() {
             var activities_list = [];
-            Object.keys(tags).forEach(function(key){
-                activities_list.push(
-                    {title: key, duration: 0}
-                );
+            Object.keys(tags).forEach(function(key) {
+                activities_list.push({
+                    title: key,
+                    duration: 0
+                });
             });
             return activities_list;
         })(),
 
-        getTags = function(activity_name){
+        getTags = function(activity_name) {
             return tags[activity_name];
         },
 
-        listActivities = function(){
+        listActivities = function() {
             return activities;
         };
 
@@ -246,7 +252,7 @@ angular.module('starter.services', [])
             window.localStorage.events = angular.toJson(queue);
         },
 
-        updateLastSentIndex = function(number_of_sent){
+        updateLastSentIndex = function(number_of_sent) {
             var last_index = getLastSentIndex(),
             new_last_sent_index = last_index + number_of_sent;
             
@@ -262,7 +268,7 @@ angular.module('starter.services', [])
             }
         },
 
-        getUnsentEvents = function(){
+        getUnsentEvents = function() {
             var queue = getQueue(),
             last_event_sent_index = getLastSentIndex(),
             queue_length = queue.length;
@@ -270,13 +276,14 @@ angular.module('starter.services', [])
             return queue.slice(last_event_sent_index + 1, queue_length);
         },
 
-        sendEvents = function(){
+        sendEvents = function() {
             var api_credentials = angular.fromJson(window.localStorage.api_credentials),
-            api_headers = {'Authorization': api_credentials.writeToken,
-                           'Content-Type': 'application/json'
-                          },
+            api_headers = {
+                'Authorization': api_credentials.writeToken,
+                'Content-Type': 'application/json'
+            },
 
-            buildAPIEvent = function(event){
+            buildAPIEvent = function(event) {
                 var tags = ActivitiesService.getTags(event.activity);
                 return {
                     "dateTime": event.dateTime,
@@ -294,18 +301,20 @@ angular.module('starter.services', [])
                 var api_events = [],
                 events = getUnsentEvents();
 
-                if(0 != events.length){
-                    for(i=0; i < events.length; i++){
+                if (0 != events.length) {
+                    for (i = 0; i < events.length; i++) {
                         api_events.push(buildAPIEvent(events[i]));
                     }
                     
                     $http.post(API.endpoint + "/v1/streams/" + api_credentials.streamid + '/events/batch', 
-                               api_events, {headers: api_headers})
+                               api_events, {
+                                   headers: api_headers
+                               })
                         .success(function(data) {
                             updateLastSentIndex(api_events.length);
                         })
                     
-                        .error(function(data){
+                        .error(function(data) {
                             //do nothing
                         });
                 }
@@ -325,31 +334,52 @@ angular.module('starter.services', [])
     })
 
     .service('AuthenticationService', function($http, API, $ionicPopup, $cordovaToast, EventSendService){
-        var showDisclaimer = function(force_show){
+        var showDisclaimer = function(force_show, callback) {
+            var onConfirm = function(res) {
+                if (res) {
+                    console.log("Authenticated, yay!");
+                    registerStream();
+                    try {
+                        $cordovaToast.show("Authenticating...", 'long', 'bottom');
+                    } catch (e) {
+                        console.error(new Error(e));
+                    }
+                } else {
+                    window.localStorage.api_credentials = 'Not authenticated';
+                    console.log('Not authenticated :(');
+                }
+                if(callback) callback(res);
+            };
             var api_credentials = window.localStorage.api_credentials;
 
-            if(typeof api_credentials === 'undefined' || force_show){
+            if (typeof api_credentials === 'undefined' || force_show) {
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Duration Data Policy',
-                    template: "1self Duration uses the 1self cloud to show you smart visualizations of your activity. Once connected you can also share and correlate your data. Your raw data will never be shown and it won't be possible to tell who you are or where you've been. Would you like to connect Duration to the 1self cloud?"
-                });
-                confirmPopup.then(function(res) {
-                    if(res) {
-                        console.log("Authenticated, yay!");
-                        registerStream();
-                        $cordovaToast.show("Authenticating...", 'long', 'bottom')
-                    } else {
-                        window.localStorage.api_credentials = 'Not authenticated';
-                        console.log('Not authenticated :(');
-                    }
+                    template: "<style>.button-continue{background-color: #00b8e7;}</style><p>1self Duration uses the 1self cloud to show you smart visualizations of your activity. Once connected you can also share and correlate your data. Your raw data will never be shown and it won't be possible to tell who you are or where you've been. Would you like to connect Duration to the 1self cloud?</p>",
+                    buttons: [{
+                        text: 'No thanks',
+                        onTap: function(e) {
+                            onConfirm(false);
+                        }
+                    }, {
+                        text: 'Continue',
+                        type: 'button-continue',
+                        onTap: function(e) {
+                            onConfirm(true);
+                        }
+                    }]
                 });
             }
         },
 
-        auth_headers = {'Authorization': API.clientId + ":" + API.clientSecret},
-        registerStream = function(){
-            $http.post(API.endpoint + "/v1/streams", {}, {headers: auth_headers})
-                .success(function(data){
+        auth_headers = {
+            'Authorization': API.clientId + ":" + API.clientSecret
+        },
+        registerStream = function() {
+            $http.post(API.endpoint + "/v1/streams", {}, {
+                headers: auth_headers
+            })
+                .success(function(data) {
                     window.localStorage.api_credentials = angular.toJson(data);
                     window.localStorage.last_event_sent_index = -1;
 
@@ -363,7 +393,7 @@ angular.module('starter.services', [])
                 });
         },
 
-        authenticated = function(){
+        authenticated = function() {
             var api_credentials = window.localStorage.api_credentials;
             return (api_credentials !== "Not authenticated") && (typeof api_credentials !== 'undefined');
         };
