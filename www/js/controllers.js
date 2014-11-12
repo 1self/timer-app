@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('duration.controllers', [])
 
     .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, ActivityTimingService, EventSendService, API, ActivitiesService) {
 	var activities = ActivitiesService.listActivities();
