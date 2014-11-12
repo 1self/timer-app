@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.timerapp890569" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Duration</name>
+<widget id="com.oneself.duration" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Duration by 1self</name>
   <description>
-    An Ionic Framework and Cordova project.
+Ever get the feeling that you're spending more time commuting, less time sleeping and you don't do enough of the things you want? Duration by 1self makes it really easy to track and analyse how long you spend doing things to bring you a new level of self-awareness.
+
+Duration is cloud connected timing app. Just hit the timer for the thing that you're doing and 1self will keep track of it for you. You can time more than one thing at   once. To find out how long you spent doing a certain thing, simply hit the charts button to be taken to the 1self visualisations.
   </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-    Ionic Framework Team
+  <author email="team@1self.co" href="http://1self.co/">
+    1self Team
   </author>
   <content src="index.html"/>
   <access origin="*"/>
