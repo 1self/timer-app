@@ -81,6 +81,6 @@ angular.module('duration.controllers', [])
                     tags.actionTags.join(',') +
                     "/sum(duration)/daily/barchart";
 
-                window.open(uri, '_blank', 'location=yes,closebuttoncaption=Back to App');
+                window.open(uri, '_blank','location=no,toolbar=no');
         };
     });
