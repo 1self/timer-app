@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.oneself.duration" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Duration by 1self</name>
-<widget id="co.1self.duration" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.oneself.duration" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Duration</name>
   <description>
 Ever get the feeling that you're spending more time commuting, less time sleeping and you don't do enough of the things you want? Duration by 1self makes it really easy to track and analyse how long you spend doing things to bring you a new level of self-awareness.
@@ -10,8 +8,6 @@ Duration is cloud connected timing app. Just hit the timer for the thing that yo
   </description>
   <author email="team@1self.co" href="http://1self.co/">
     1self Team
-  <author email="team@1self.co" href="http://www.1self.com/">
-    Ionic Framework Team
   </author>
   <content src="index.html"/>
   <access origin="*"/>
