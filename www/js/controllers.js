@@ -4,10 +4,10 @@ angular.module('starter.controllers', [])
 	var activities = ActivitiesService.listActivities();
         $scope.activities = [];
 
-        activities.forEach(function(activity){
-            var updated_activity = ActivityTimingService.updateActivity(activity);
+        for(i = 0; i < activities.length; i++){
+            var updated_activity = ActivityTimingService.updateActivity(activities[i]);
             $scope.activities.push(updated_activity);
-        });
+        }
 
 	$scope.toggleActivity = function(activity) {
 	    var activity = ActivityTimingService.updateActivity(activity, "toggle");
@@ -78,14 +78,14 @@ angular.module('starter.controllers', [])
 
         $scope.showChart =  function(){
             var activity = $scope.chart.type;
-                var api_credentials = angular.fromJson(window.localStorage.api_credentials),
-                tags = ActivitiesService.getTags(activity),
-                uri = API.endpoint + "/v1/streams/" +
-                    api_credentials.streamid + "/events/" +
-                    tags.objectTags.join(',') + "/" +
-                    tags.actionTags.join(',') +
-                    "/sum(duration)/daily/barchart";
+            var api_credentials = angular.fromJson(window.localStorage.api_credentials),
+            tags = ActivitiesService.getTags(activity),
+            uri = API.endpoint + "/v1/streams/" +
+                api_credentials.streamid + "/events/" +
+                tags.objectTags.join(',') + "/" +
+                tags.actionTags.join(',') +
+                "/sum(duration)/daily/barchart";
 
-                window.open(uri, '_blank', 'location=yes,closebuttoncaption=Back to App');
+            window.open(uri, '_blank', 'location=yes,closebuttoncaption=Back to App');
         };
     });

@@ -214,6 +214,11 @@ angular.module('starter.services', [])
                 var active_activities = getActiveActivities();
                 if(activity.title in active_activities){
                     activity.startDate = active_activities[activity.title].startDate;
+
+                    //cancel any previous intervals (if, any)
+                    $interval.cancel(activity.interval);
+
+                    //create new
                     updateActivityTime();
                     activity.interval = $interval(updateActivityTime, 100);
                 }
