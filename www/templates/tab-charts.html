@@ -5,7 +5,7 @@
         <div class="input-label">
           Select Activity
         </div>
-        <select ng-change="showChart()" ng-options="activity.title as activity.title for activity in activities" ng-model="chart.type">
+        <select ng-blur="showChart()" ng-change="showChart()" ng-options="activity.title as activity.title for activity in activities" ng-model="chart.type">
         </select>
       </label>
     </div>

@@ -391,7 +391,11 @@ angular.module('duration.services', [])
                     //a continuous service to send pending events
                     EventSendService.sendEvents();
 
-                    $cordovaToast.show("Authenticated", 'long', 'bottom')
+            try {
+                $cordovaToast.show("Authenticated", 'long', 'bottom')
+            } catch (e) {
+                console.error(new Error(e));
+            }
                 })
                 .error(function(data, status, headers, config) {
                     //try again next time :(
