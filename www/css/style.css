@@ -1,1 +1,90 @@
 /* Empty. Add your own CSS if you like */
+.selected {
+    background-color:#e93e5a;
+    color: white;
+}
+
+.title, .tabs {
+    color: #fff !important;
+    background-color: #00b8e7 !important;
+    margin: 0 !important;
+}
+
+.custom-content{
+    background-color: #eee;
+}
+
+.activity_title{
+    margin-left: 10px;
+    line-height: 36px;
+    float:left;
+}
+
+.activity_duration{
+    float: right;
+    line-height: 30px;
+}
+
+.item_description{
+    float:left;
+    width: 100%;
+}
+
+.activity_icon{
+    width: 30px;
+    height: 30px;
+    float:left;
+}
+
+.history_duration{
+    color: #e93e5a;
+}
+
+.item-center{
+    background-color: #e7e9ee;
+    text-align:center;
+}
+
+.chart_iframe{
+    height: 100%;
+    width: 100%;
+}
+
+.item_controls{
+    float:left;
+    width: 10%;
+}
+
+.duration_time {
+    padding-left: 10px;
+    width: 100px;
+    height: 25px;
+    margin-top: 5px;
+    float:left;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    line-height: 25px;
+}
+
+.circle, .duration_time {
+    background-color: rgba(218, 215, 215, 1);
+}
+
+.circle{
+    width: 36px;
+    float: left;
+    height: 36px;
+    border-radius: 50px;
+    margin-left: -27px;
+}
+.duration_seconds {
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+    padding-top: 3px;
+    padding-left: 7px;
+}
+
+.duration_time_selected, .duration_seconds_selected{
+    background-color: rgba(223, 197, 68, 1);
+}
