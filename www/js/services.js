@@ -98,8 +98,8 @@ angular.module('duration.services', [])
                 objectTags: ["instrument"],
                 actionTags: ["play"]
             },
-            "Playing computer game": {
-                objectTags: ["computer"],
+            "Playing Games": {
+                objectTags: ["computer", "games"],
                 actionTags: ["play"]
             },
             "Reading": {
@@ -122,15 +122,15 @@ angular.module('duration.services', [])
                 objectTags: ["self"],
                 actionTags: ["study"]
             },
-            "Tooth brushing": {
+            "Tooth Brushing": {
                 objectTags: ["teeth"],
                 actionTags: ["brush"]
             },
-            "Tooth flossing": {
+            "Tooth Flossing": {
                 objectTags: ["teeth"],
                 actionTags: ["floss"]
             },
-            "TV watching ": {
+            "TV Watching ": {
                 objectTags: ["tv"],
                 actionTags: ["watch"]
             },
