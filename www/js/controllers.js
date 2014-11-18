@@ -84,7 +84,8 @@ angular.module('duration.controllers', [])
                 api_credentials.streamid + "/events/" +
                 tags.objectTags.join(',') + "/" +
                 tags.actionTags.join(',') +
-                "/sum(duration)/daily/barchart";
+                "/sum(duration)/daily/barchart?readToken=" + 
+                api_credentials.readToken;
 
             window.open(uri, '_blank', 'location=no,toolbar=yes,closebuttoncaption=Back to App');
         };
