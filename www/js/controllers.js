@@ -26,7 +26,7 @@ angular.module('duration.controllers', [])
 	};
 
 	$scope.showToast = function(message) {
-	    $cordovaToast.show(message, 'long', 'bottom')
+	    $cordovaToast.show(message, 'short', 'bottom')
 		.then(function(success) {
 		    console.log("The toast was shown");
 		}, function(error) {
