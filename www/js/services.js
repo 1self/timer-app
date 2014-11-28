@@ -292,8 +292,8 @@ angular.module('duration.services', [])
                 var tags = ActivitiesService.getTags(event.activity);
                 return {
                     "dateTime": event.dateTime,
-                    "source": "Timer App",
-                    "version": "0.0.1",
+                    "source": API.appName,
+                    "version": API.appVersion,
                     "objectTags": tags.objectTags,
                     "actionTags": tags.actionTags,
                     "properties": {
@@ -378,7 +378,7 @@ angular.module('duration.services', [])
         },
 
         auth_headers = {
-            'Authorization': API.clientId + ":" + API.clientSecret
+            'Authorization': API.appId + ":" + API.appSecret
         },
         registerStream = function() {
             $http.post(API.endpoint + "/v1/streams", {}, {
