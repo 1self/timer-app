@@ -423,26 +423,34 @@ angular.module('duration.services', [])
             count = Object.keys(angular.fromJson(window.localStorage.active_activities)).length;
         }
         var showNotification = function() {
-            $ionicPlatform.ready(function() {
-                count++;
-                id = window.plugin.notification.local.add({
-                    id: 1,
-                    title: 'Duration',
-                    message: 'Timer active',
-                    date: new Date(),
-                    ongoing: true,
-                    badge: count
+            try {
+                $ionicPlatform.ready(function() {
+                    count++;
+                    id = window.plugin.notification.local.add({
+                        id: 1,
+                        title: 'Duration',
+                        message: 'Timer active',
+                        date: new Date(),
+                        ongoing: true,
+                        badge: count
+                    });
                 });
-            });
+            } catch (e) {
+                console.error(new Error(e));
+            }
         };
 
         var cancelNotification = function() {
-            $ionicPlatform.ready(function() {
-                count--;
-                if(count === 0){
-                    window.plugin.notification.local.cancelAll();
-                }
-            })
+            try {
+                $ionicPlatform.ready(function() {
+                    count--;
+                    if (count === 0) {
+                        window.plugin.notification.local.cancelAll();
+                    }
+                })
+            } catch (e) {
+                console.error(new Error(e));
+            }
         };
 
         return {

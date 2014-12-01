@@ -42,7 +42,7 @@ angular.module('duration.controllers', [])
                     }
                 };
 
-                var editPopupTemplate = 'Hours - Mins - Secs - Milliseconds<br><input type="number" size="2" min="0" ng-model="data.duration.hours"/><input type="number" size="2" min="0" max="60" ng-model="data.duration.minutes"/><input type="number" size="2" min="0" max="60" ng-model="data.duration.seconds"/><input type="number" size="2" min="0" max="1000" ng-model="data.duration.milliseconds"/>';
+                var editPopupTemplate = 'Hours : Minutes : Seconds<br><input type="number" size="2" min="0" ng-model="data.duration.hours"/><input type="number" size="2" min="0" max="60" ng-model="data.duration.minutes"/><input type="number" size="2" min="0" max="60" ng-model="data.duration.seconds"/>';
 
                 var editPopup = $ionicPopup.show({
                     template: editPopupTemplate,
