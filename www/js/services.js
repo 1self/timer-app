@@ -169,7 +169,7 @@ angular.module('duration.services', [])
         };
     })
 
-    .service('ActivityTimingService', function(moment, $interval, ActivitiesService) {
+    .service('ActivityTimingService', function(moment, $interval, ActivitiesService, NotificationService) {
         var updateActivity = function(activity, action) {
             var updateActivityTime = function() {
                 var elapsedTime = moment.duration(moment().diff(activity.startDate));
@@ -199,11 +199,13 @@ angular.module('duration.services', [])
 
             toggleActivity = function(){
                 if (!activity.interval) {
+                    NotificationService.showNotification();
                     activity.startDate = moment();
                     updateActivityTime();
                     activity.interval = $interval(updateActivityTime, 100);
                     storeActiveActivity(activity);
                 } else {
+                    NotificationService.cancelNotification();
                     $interval.cancel(activity.interval);
                     delete activity.interval;
                     removeActiveActivity(activity);
@@ -412,4 +414,39 @@ angular.module('duration.services', [])
             authenticated: authenticated
         };
 
-    });
+    })
+    .service('NotificationService', ['$ionicPlatform', function($ionicPlatform){
+
+        var id = 1;
+        var count = 0;
+        if (window.localStorage.active_activities) {
+            count = Object.keys(angular.fromJson(window.localStorage.active_activities)).length;
+        }
+        var showNotification = function() {
+            $ionicPlatform.ready(function() {
+                count++;
+                id = window.plugin.notification.local.add({
+                    id: 1,
+                    title: 'Duration',
+                    message: 'Timer active',
+                    date: new Date(),
+                    ongoing: true,
+                    badge: count
+                });
+            });
+        };
+
+        var cancelNotification = function() {
+            $ionicPlatform.ready(function() {
+                count--;
+                if(count === 0){
+                    window.plugin.notification.local.cancelAll();
+                }
+            })
+        };
+
+        return {
+            showNotification: showNotification,
+            cancelNotification: cancelNotification
+        };
+    }]);
