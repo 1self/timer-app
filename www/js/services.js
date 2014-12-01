@@ -144,28 +144,63 @@ angular.module('duration.services', [])
             }
         },
 
-        activities = (function() {
+        create_activities = function(tag_list) {
             var activities_list = [];
-            Object.keys(tags).forEach(function(key) {
+            Object.keys(tag_list).forEach(function(key) {
                 activities_list.push({
                     title: key,
                     duration: 0
                 });
             });
             return activities_list;
-        })(),
+        },
+
+        activities = create_activities(tags),
 
         getTags = function(activity_name) {
             return tags[activity_name];
         },
 
-        listActivities = function() {
+        listActivities = function(visibility) {
+            if(!window.localStorage.hidden_activities) return activities;
+
+            var hidden = angular.fromJson(window.localStorage.hidden_activities);
+            
+            if (visibility === true) {
+                var visible_tags = JSON.parse(JSON.stringify(tags));
+
+                for (var i = 0; i < hidden.length; i++) {
+                    delete visible_tags[hidden[i]];
+                };
+                return create_activities(visible_tags);
+            }
+
             return activities;
+        },
+
+        toggleActivityView = function(activity_name, isVisible) {
+            var hidden = [];
+            if(window.localStorage.hidden_activities) {
+                hidden = angular.fromJson(window.localStorage.hidden_activities);
+            }
+
+            for (var i = 0; i < hidden.length; i++) {
+                if(hidden[i] == activity_name) {
+                    if(isVisible) {
+                        hidden.splice(i, 1);
+                        break;
+                    }
+                    return;
+                }
+            }
+            if(!isVisible) hidden.push(activity_name);
+            window.localStorage.hidden_activities = angular.toJson(hidden);
         };
 
         return {
             listActivities: listActivities,
-            getTags: getTags
+            getTags: getTags,
+            toggleActivityView: toggleActivityView
         };
     })
 

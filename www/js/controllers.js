@@ -1,7 +1,7 @@
 angular.module('duration.controllers', [])
 
     .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, $ionicPopup, $timeout, ActivityTimingService, EventSendService, API, ActivitiesService) {
-	var activities = ActivitiesService.listActivities();
+	var activities = ActivitiesService.listActivities(true);
         $scope.activities = [];
 
         for(i = 0; i < activities.length; i++){
@@ -104,7 +104,7 @@ angular.module('duration.controllers', [])
 
 
     .controller('ChartsCtrl', function($scope, $location, API, ActivitiesService, AuthenticationService) {
-        $scope.activities = ActivitiesService.listActivities();
+        $scope.activities = ActivitiesService.listActivities(true);
         $scope.chart = {};
 
         var init = function() {
