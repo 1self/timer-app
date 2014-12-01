@@ -88,3 +88,10 @@
 .duration_time_selected, .duration_seconds_selected{
     background-color: rgba(223, 197, 68, 1);
 }
+
+input[type="number"] {
+   float: left;
+   margin: 2px;
+   width: 23%;
+   padding: 5px;
+}

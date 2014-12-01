@@ -1,6 +1,6 @@
 angular.module('duration.controllers', [])
 
-    .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, ActivityTimingService, EventSendService, API, ActivitiesService) {
+    .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, $ionicPopup, $timeout, ActivityTimingService, EventSendService, API, ActivitiesService) {
 	var activities = ActivitiesService.listActivities();
         $scope.activities = [];
 
@@ -11,19 +11,60 @@ angular.module('duration.controllers', [])
 
 	$scope.toggleActivity = function(activity) {
 	    var activity = ActivityTimingService.updateActivity(activity, "toggle");
-	    if (!activity.interval) {
-		var message = activity.title + " for " + $filter('durationPartFilter')($filter('millisecondsToStringFilter')(activity.duration));
-		try {
-		    $scope.showToast(message);
-		} catch (e) {
-		    console.error(e);
-		}
+
+        if (!activity.interval) {
+            var durationString = $filter('millisecondsToStringFilter')(activity.duration); 
+            var durationParts = durationString.split(':');
+
+            var queueEvent = function(res) {
+                if(!res) return;
+
+                activity.duration = res;
+
+                var message = activity.title + " for " + $filter('durationPartFilter')($filter('millisecondsToStringFilter')(activity.duration));
+                try {
+                    $scope.showToast(message);
+                } catch (e) {
+                    console.error(e);
+                }
 
                 var event = $filter('buildEventFilter')(activity);
+                EventSendService.queueEvent(event);
+            };
 
-		EventSendService.queueEvent(event);
-	    }
-	};
+            $scope.showEditPopup = function() {
+                $scope.data = {
+                    duration: {
+                        hours: parseInt(durationParts[0], 10),
+                        minutes: parseInt(durationParts[1], 10),
+                        seconds: parseInt(durationParts[2], 10),
+                        milliseconds: parseInt(durationParts[3], 10)
+                    }
+                };
+
+                var editPopupTemplate = 'Hours - Mins - Secs - Milliseconds<br><input type="number" size="2" min="0" ng-model="data.duration.hours"/><input type="number" size="2" min="0" max="60" ng-model="data.duration.minutes"/><input type="number" size="2" min="0" max="60" ng-model="data.duration.seconds"/><input type="number" size="2" min="0" max="1000" ng-model="data.duration.milliseconds"/>';
+
+                var editPopup = $ionicPopup.show({
+                    template: editPopupTemplate,
+                    title: 'Edit duration',
+                    subTitle: 'Please confirm the time to log',
+                    scope: $scope,
+                    buttons: [{
+                        text: 'Cancel'
+                    }, {
+                        text: '<b>Log</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            return $scope.data.duration.hours*3600000 + $scope.data.duration.minutes*60000 + $scope.data.duration.seconds*1000 + $scope.data.duration.milliseconds;
+                        }
+                    }, ]
+                });
+                editPopup.then(queueEvent);
+            };
+
+        $scope.showEditPopup();
+        }
+    }
 
 	$scope.showToast = function(message) {
 	    $cordovaToast.show(message, 'short', 'bottom')
