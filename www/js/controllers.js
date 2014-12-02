@@ -1,7 +1,9 @@
 angular.module('duration.controllers', [])
 
     .controller('DashCtrl', function($scope, $ionicModal, $cordovaToast, $filter, $ionicPopup, $timeout, ActivityTimingService, EventSendService, API, ActivitiesService) {
-	var activities = ActivitiesService.listActivities();
+
+	var activities = $filter('showSelectedActivities')(ActivitiesService.listActivities());
+
         $scope.activities = [];
 
         for(i = 0; i < activities.length; i++){
@@ -76,6 +78,18 @@ angular.module('duration.controllers', [])
 	};
     })
 
+    .controller('DashEditCtrl', ['$scope', '$location', '$ionicNavBarDelegate','UserPreferenceService', function($scope, $location, $ionicNavBarDelegate, UserPreferenceService){
+        $scope.activities = UserPreferenceService.loadPreferences("activities");
+        $scope.change = function(index){
+            console.log($scope.activities);
+            UserPreferenceService.setPreference("activities", $scope.activities);
+        };
+
+        $scope.goBack = function() {
+            $ionicNavBarDelegate.back();
+        }
+    }])
+
     .controller('HistoryCtrl', function(moment, $scope, EventSendService) {
         var grouped_events = (function(){
             var events = EventSendService.getQueue();
@@ -104,7 +118,7 @@ angular.module('duration.controllers', [])
 
 
     .controller('ChartsCtrl', function($scope, $location, API, ActivitiesService, AuthenticationService) {
-        $scope.activities = ActivitiesService.listActivities();
+        $scope.activities = ActivitiesService.listActivities(true);
         $scope.chart = {};
 
         var init = function() {

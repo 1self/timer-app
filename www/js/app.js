@@ -8,12 +8,12 @@
 
 
 
-angular.module('duration', ['ionic', 'ngCordova', 'duration.controllers', 'duration.services', 'angularMoment'])
+angular.module('duration', ['ionic', 'ngAnimate', 'ngTouch','ngCordova', 'duration.controllers', 'duration.services', 'angularMoment'])
 
     .constant("API", {
         endpoint: "http://api-staging.1self.co",
         "appName": "co.1self.duration",
-        "appVersion": "1.0.3",
+        "appVersion": "1.0.4",
         "appId": "app-id-4478f918d7729f3b943d873d4a334716",
         "appSecret": "app-secret-244f9e0c2a2a9cab9c358349b8fa3a30c5a123bb7ae562df1b3559358b43cd1f"
     })
@@ -66,6 +66,16 @@ angular.module('duration', ['ionic', 'ngCordova', 'duration.controllers', 'durat
                 }
             })
 
+            .state('tab.edit', {
+                url: '/dash/edit',
+                views: {
+                    'tab-dash': {
+                        templateUrl: 'templates/tab-dash-edit.html',
+                        controller: 'DashEditCtrl'
+                    }
+                }
+            })
+
             .state('tab.history', {
                 url: '/history',
                 views: {
@@ -81,16 +91,6 @@ angular.module('duration', ['ionic', 'ngCordova', 'duration.controllers', 'durat
                     'tab-charts': {
                         templateUrl: 'templates/tab-charts.html',
                         controller: 'ChartsCtrl'
-                    }
-                }
-            })
-
-            .state('tab.account', {
-                url: '/account',
-                views: {
-                    'tab-account': {
-                        templateUrl: 'templates/tab-account.html',
-                        controller: 'AccountCtrl'
                     }
                 }
             });
