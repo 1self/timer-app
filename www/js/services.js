@@ -519,6 +519,9 @@ angular.module('duration.services', [])
                     if (count === 0) {
                         window.plugin.notification.local.cancelAll();
                     }
+                    else {
+                        window.plugin.notification.local.add({badge: count});
+                    }
                 });
             } catch (e) {
                 console.error(new Error(e));
