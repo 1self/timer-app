@@ -39,6 +39,10 @@
                         {
                             "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"LocalNotification\"><param name=\"ios-package\" onload=\"true\" value=\"APPLocalNotification\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -79,6 +83,9 @@
         },
         "org.apache.cordova.statusbar": {
             "PACKAGE_NAME": "com.ionicframework.timerapp890569"
+        },
+        "de.appplant.cordova.plugin.local-notification": {
+            "PACKAGE_NAME": "com.oneself.duration"
         }
     },
     "dependent_plugins": {}

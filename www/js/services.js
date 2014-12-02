@@ -39,14 +39,14 @@ angular.module('duration.services', [])
     })
 
 
-    .filter('buildEventFilter', function() {		
-        return function(activity) {		
-            return {		
-                "activity": activity.title,		
-                "dateTime": activity.startDate,		
-                "duration": activity.duration/1000		
-            };		
-        };		
+    .filter('buildEventFilter', function() {
+        return function(activity) {
+            return {
+                "activity": activity.title,
+                "dateTime": activity.startDate,
+                "duration": activity.duration/1000
+            };
+        };
     })
 
     .filter('humanize', ['moment', function(moment) {
@@ -262,7 +262,7 @@ angular.module('duration.services', [])
         updateLastSentIndex = function(number_of_sent) {
             var last_index = getLastSentIndex(),
             new_last_sent_index = last_index + number_of_sent;
-            
+
             window.localStorage.last_event_sent_index = new_last_sent_index;
         },
 
@@ -312,23 +312,23 @@ angular.module('duration.services', [])
                     for (i = 0; i < events.length; i++) {
                         api_events.push(buildAPIEvent(events[i]));
                     }
-                    
-                    $http.post(API.endpoint + "/v1/streams/" + api_credentials.streamid + '/events/batch', 
+
+                    $http.post(API.endpoint + "/v1/streams/" + api_credentials.streamid + '/events/batch',
                                api_events, {
                                    headers: api_headers
                                })
                         .success(function(data) {
                             updateLastSentIndex(api_events.length);
                         })
-                    
+
                         .error(function(data) {
                             //do nothing
                         });
                 }
-                
+
                 $timeout(poller, 5000);
             };
-            
+
             poller();
         };
 
@@ -337,7 +337,7 @@ angular.module('duration.services', [])
             sendEvents: sendEvents,
             getQueue: getQueue
         };
-        
+
     })
 
     .service('AuthenticationService', function($http, API, $ionicPopup, $cordovaToast, EventSendService){
@@ -417,7 +417,7 @@ angular.module('duration.services', [])
     })
     .service('NotificationService', ['$ionicPlatform', function($ionicPlatform){
 
-        var id = 1;
+        var id = "1";
         var count = 0;
         if (window.localStorage.active_activities) {
             count = Object.keys(angular.fromJson(window.localStorage.active_activities)).length;
@@ -427,7 +427,7 @@ angular.module('duration.services', [])
                 $ionicPlatform.ready(function() {
                     count++;
                     id = window.plugin.notification.local.add({
-                        id: 1,
+                        id: id,
                         title: 'Duration',
                         message: 'Timer active',
                         date: new Date(),
@@ -447,7 +447,7 @@ angular.module('duration.services', [])
                     if (count === 0) {
                         window.plugin.notification.local.cancelAll();
                     }
-                })
+                });
             } catch (e) {
                 console.error(new Error(e));
             }
