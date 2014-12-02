@@ -8,7 +8,7 @@
 
 
 
-angular.module('duration', ['ionic', 'ngCordova', 'duration.controllers', 'duration.services', 'angularMoment'])
+angular.module('duration', ['ionic', 'ngAnimate', 'ngTouch','ngCordova', 'duration.controllers', 'duration.services', 'angularMoment'])
 
     .constant("API", {
         endpoint: "http://api-staging.1self.co",
@@ -66,6 +66,16 @@ angular.module('duration', ['ionic', 'ngCordova', 'duration.controllers', 'durat
                 }
             })
 
+            .state('tab.edit', {
+                url: '/dash/edit',
+                views: {
+                    'tab-dash': {
+                        templateUrl: 'templates/tab-dash-edit.html',
+                        controller: 'DashEditCtrl'
+                    }
+                }
+            })
+
             .state('tab.history', {
                 url: '/history',
                 views: {
@@ -81,16 +91,6 @@ angular.module('duration', ['ionic', 'ngCordova', 'duration.controllers', 'durat
                     'tab-charts': {
                         templateUrl: 'templates/tab-charts.html',
                         controller: 'ChartsCtrl'
-                    }
-                }
-            })
-
-            .state('tab.account', {
-                url: '/account',
-                views: {
-                    'tab-account': {
-                        templateUrl: 'templates/tab-account.html',
-                        controller: 'AccountCtrl'
                     }
                 }
             });

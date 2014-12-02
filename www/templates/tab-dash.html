@@ -1,4 +1,7 @@
 <ion-view title="DURATION">
+<ion-nav-buttons side="right">
+<a class="button button-positive ion-gear-a bar-main" href="#/tab/dash/edit"></a>
+</ion-nav-buttons>
   <ion-content class="padding custom-content">
     <ion-list>
       <ion-item ng-repeat="activity in activities" type="item-text-wrap" ng-class="{'selected': activity.interval != undefined}">

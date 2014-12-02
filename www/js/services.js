@@ -64,6 +64,24 @@ angular.module('duration.services', [])
         };
     }])
 
+    .filter('showSelectedActivities',['UserPreferenceService', function(UserPreferenceService){
+        return function(activities) {
+            var shown_activities = [];
+            var selected_activities = UserPreferenceService.loadPreferences("activities");
+            for (var i = 0; i < selected_activities.length; i++) {
+                if(selected_activities[i].selected == true){
+                    for (var j = 0; j < activities.length; j++) {
+                        if (activities[j].title == selected_activities[i].title) {
+                            shown_activities.push(activities[j]);
+                            break;
+                        }
+                    };
+                }
+            };
+            return shown_activities;
+        };
+    }])
+
     .service('ActivitiesService', function() {
         var tags = {
             "Coding": {
@@ -158,51 +176,70 @@ angular.module('duration.services', [])
         activities = create_activities(tags),
 
         getTags = function(activity_name) {
-            return tags[activity_name];
+            if (activity_name) {
+                return tags[activity_name];
+            } else {
+                return tags;
+            }
         },
 
-        listActivities = function(visibility) {
-            if(!window.localStorage.hidden_activities) return activities;
-
-            var hidden = angular.fromJson(window.localStorage.hidden_activities);
-            
-            if (visibility === true) {
-                var visible_tags = JSON.parse(JSON.stringify(tags));
-
-                for (var i = 0; i < hidden.length; i++) {
-                    delete visible_tags[hidden[i]];
-                };
-                return create_activities(visible_tags);
-            }
-
+        listActivities = function() {
             return activities;
-        },
-
-        toggleActivityView = function(activity_name, isVisible) {
-            var hidden = [];
-            if(window.localStorage.hidden_activities) {
-                hidden = angular.fromJson(window.localStorage.hidden_activities);
-            }
-
-            for (var i = 0; i < hidden.length; i++) {
-                if(hidden[i] == activity_name) {
-                    if(isVisible) {
-                        hidden.splice(i, 1);
-                        break;
-                    }
-                    return;
-                }
-            }
-            if(!isVisible) hidden.push(activity_name);
-            window.localStorage.hidden_activities = angular.toJson(hidden);
         };
 
         return {
             listActivities: listActivities,
             getTags: getTags,
-            toggleActivityView: toggleActivityView
         };
     })
+    
+    .service('UserPreferenceService', ['ActivitiesService', function(ActivitiesService){
+
+        var create_activities = function(tag_list) {
+            var activities_list = [];
+            Object.keys(tag_list).forEach(function(key) {
+                activities_list.push({
+                    title: key,
+                    selected: true
+                });
+            });
+            return activities_list;
+        };
+
+        var initialize = function() {
+            if(!window.localStorage.user_preferences) {
+                window.localStorage.user_preferences = angular.toJson({
+                    "activities": create_activities(ActivitiesService.getTags())
+                });
+            }
+        };
+
+        var loadPreferences = function(key) {
+            initialize();
+            if (key) {
+                return angular.fromJson(window.localStorage.user_preferences)[key];
+            } else {
+                return angular.fromJson(window.localStorage.user_preferences);
+            }
+
+        };
+        var preferences = loadPreferences();
+
+        var savePreferences = function() {
+            window.localStorage.user_preferences = angular.toJson(preferences);
+        };
+
+        var setPreference = function(key, value) {
+            preferences[key] = value;
+            savePreferences();
+        };
+
+        return {
+            initialize: initialize,
+            loadPreferences: loadPreferences,
+            setPreference: setPreference
+        };
+    }])
 
     .service('ActivityTimingService', function(moment, $interval, ActivitiesService, NotificationService) {
         var updateActivity = function(activity, action) {

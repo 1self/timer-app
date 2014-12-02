@@ -1,0 +1,13 @@
+<ion-view title="Preferences">
+<ion-nav-button side="left">
+<ion-nav-back-button class="button-icon icon  ion-ios7-arrow-back button back-button" style="">
+        Back
+      </ion-nav-back-button>
+</ion-nav-button>
+  <ion-content class="padding custom-content" ng-swipe-right="goBack()">
+
+  <ion-toggle ng-repeat="activity in activities" ng-checked="activity.selected" toggle-class="toggle-calm" ng-model="activity.selected" ng-change="change($index)">{{activity.title}}
+  </ion-toggle>
+
+  </ion-content>
+</ion-view>
