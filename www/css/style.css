@@ -101,3 +101,12 @@ input[type="number"] {
     border-color: rgba(0, 0, 0, 0.31) !important;
     font-size: 25px !important;
 }
+
+.item-content {
+    padding: 15px 2px 16px 2px !important;
+}
+
+.item-reorder {
+    padding: 0px !important;
+    width: 45px !important;
+}

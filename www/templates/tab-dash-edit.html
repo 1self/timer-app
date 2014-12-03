@@ -4,10 +4,18 @@
         Back
       </ion-nav-back-button>
 </ion-nav-button>
-  <ion-content class="padding custom-content" ng-swipe-right="goBack()">
 
-  <ion-toggle ng-repeat="activity in activities" ng-checked="activity.selected" toggle-class="toggle-calm" ng-model="activity.selected" ng-change="change($index)">{{activity.title}}
-  </ion-toggle>
+<ion-content class="padding custom-content" ng-swipe-right="goBack()">
 
-  </ion-content>
+<ion-list show-reorder="true">
+  <ion-item style="padding-left: 60px !important;" ng-repeat="activity in activities">
+    <ion-toggle ng-checked="activity.selected" toggle-class="toggle-calm" ng-model="activity.selected" ng-change="change($index)">
+    {{activity.title}}
+    </ion-toggle>
+    <ion-reorder-button class="ion-ios7-drag" on-reorder="moveItem(activity, $fromIndex, $toIndex)">
+    </ion-reorder-button>
+  </ion-item>
+</ion-list>
+
+</ion-content>
 </ion-view>
