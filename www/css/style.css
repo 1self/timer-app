@@ -98,6 +98,11 @@ input[type="number"] {
     font-size: 25px !important;
 }
 
+.no-border {
+		border: none;
+		border-style: none;
+}
+
 .item-content {
     padding: 15px 2px 16px 2px !important;
 }
