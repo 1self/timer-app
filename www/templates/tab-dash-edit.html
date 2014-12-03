@@ -9,7 +9,7 @@
 
 <ion-list show-reorder="true">
   <ion-item style="padding-left: 60px !important;" ng-repeat="activity in activities">
-    <ion-toggle ng-checked="activity.selected" toggle-class="toggle-calm" ng-model="activity.selected" ng-change="change($index)">
+    <ion-toggle class="no-border" ng-checked="activity.selected" toggle-class="toggle-calm" ng-model="activity.selected" ng-change="change($index)">
     {{activity.title}}
     </ion-toggle>
     <ion-reorder-button class="ion-ios7-drag" on-reorder="moveItem(activity, $fromIndex, $toIndex)">
