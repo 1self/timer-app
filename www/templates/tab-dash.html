@@ -12,7 +12,7 @@
               {{ activity.duration | millisecondsToStringFilter | durationPartFilter}}
             </div>
             <div class="circle" ng-class="{'duration_seconds_selected': activity.interval != undefined}">
-              <div class="duration_seconds">{{ activity.duration | millisecondsToStringFilter | tenthsPartFilter}}</div>
+              <div class="duration_seconds" ng-show="activity.duration"></div>
             </div>
           </div>
         </div>
