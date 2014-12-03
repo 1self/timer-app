@@ -520,7 +520,13 @@ angular.module('duration.services', [])
                         window.plugin.notification.local.cancelAll();
                     }
                     else {
-                        window.plugin.notification.local.add({badge: count});
+                        window.plugin.notification.local.add({
+                            id: id,
+                            title: 'Duration',
+                            message: 'Timer active',
+                            ongoing: true,
+                            sound: null,
+                            badge: count});
                     }
                 });
             } catch (e) {
