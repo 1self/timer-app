@@ -106,3 +106,7 @@ input[type="number"] {
     padding: 0px !important;
     width: 45px !important;
 }
+
+body.platform-ios .bar-stable .buttons.right-buttons {
+		margin-top:0!important;
+}
