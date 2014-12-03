@@ -11,10 +11,10 @@
         </div>
 
         <div class="item_controls">
-          <span class="activity_duration history_duration" ng-init="hours=format_time(item.duration, 'hours');minutes=format_time(item.duration, 'minutes');seconds=format_time(item.duration, 'seconds')">
-            <b ng-show="hours">{{ hours }}h </b>
-            <b ng-show="minutes">{{ minutes }}m </b>
-            <b>{{ seconds }}s </b>
+          <span class="activity_duration history_duration" ng-init="duration=humanizeTime(item.duration)">
+            <b ng-show="duration.hours">{{ duration.hours }}h </b>
+            <b ng-show="duration.minutes">{{ duration.minutes }}m </b>
+            <b>{{ duration.seconds }}s </b>
           </span>
         </div>
       </a>

@@ -87,10 +87,16 @@ angular.module('duration.controllers', [])
 
         $scope.goBack = function() {
             $ionicNavBarDelegate.back();
-        }
+        };
+
+        $scope.moveItem = function(item, fromIndex, toIndex) {
+            $scope.activities.splice(fromIndex, 1);
+            $scope.activities.splice(toIndex, 0, item);
+            UserPreferenceService.setPreference("activities", $scope.activities);
+        };
     }])
 
-    .controller('HistoryCtrl', function(moment, $scope, EventSendService) {
+    .controller('HistoryCtrl', function($scope, $filter, EventSendService) {
         var grouped_events = (function(){
             var events = EventSendService.getQueue();
             var groups = {};
@@ -109,9 +115,13 @@ angular.module('duration.controllers', [])
         $scope.events = grouped_events;
         $scope.event_dates = Object.keys(grouped_events).sort().reverse();
 
-        $scope.format_time = function(secs, type){
-            var duration = moment.duration(secs * 1000);
-            return duration[type]();
+        $scope.humanizeTime = function(duration){
+            var tstring = $filter('millisecondsToStringFilter')(duration*1000).split(':');
+            return {
+                hours: parseInt(tstring[0], 10),
+                minutes: parseInt(tstring[1], 10),
+                seconds: parseInt(tstring[2], 10)
+            };
         };
     })
 
