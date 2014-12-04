@@ -152,6 +152,6 @@ angular.module('duration.controllers', [])
                 "/sum(duration)/daily/barchart?readToken=" + 
                 api_credentials.readToken;
 
-            window.open(uri, '_blank', 'location=no,toolbar=yes,closebuttoncaption=Back to App');
+            window.open(uri, '_blank', 'location=no,toolbar=yes,closebuttoncaption=Back,toolbarposition=top,presentationstyle=pagesheet');
         };
     });
