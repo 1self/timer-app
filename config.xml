@@ -59,5 +59,21 @@ Duration is cloud connected timing app. Just hit the timer for the thing that yo
               <icon src="www/res/icons/ios/duration-icon-small@2x.png" width="58" height="58" />
               <!-- ipad -->
               <icon src="www/res/icons/ios/duration-icon-72.png" width="72" height="72" />
-     </platform>
+   </platform>
+
+
+   <platform name="ios">
+     <!-- images are determined by width and height. The following are supported -->
+     <splash src="www/ios_assets/Default.png" width="320" height="480"/>
+     <splash src="www/ios_assets/Default@2x.png" width="640" height="960"/>
+     <splash src="www/ios_assets/Default~ipad~nostatusbar" width="768" height="1024"/>
+     <splash src="www/ios_assets/Default~ipad~nostatusbar@2x" width="1536" height="2048"/>
+     <splash src="www/ios_assets/Default~ipad~landscape.png" width="1024" height="768"/>
+     <splash src="www/ios_assets/Default~ipad~landscape@2x.png" width="2048" height="1536"/>
+     <splash src="www/ios_assets/Default-568h@2x.png" width="640" height="1136"/>
+     <splash src="www/ios_assets/iPhone6-portrait@2x" width="750" height="1334"/>
+     <splash src="www/ios_assets/iPhone6-Plus-portrait@3x" width="1242" height="2208"/>
+     <splash src="www/ios_assets/iPhone6-Plus-landscape@3x.png" width="2208" height="1242"/>
+   </platform>
+
 </widget>
