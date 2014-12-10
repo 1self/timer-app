@@ -398,7 +398,7 @@ angular.module('duration.services', [])
                         });
                 }
 
-                $timeout(poller, 5000);
+                $timeout(poller, 1000);
             };
 
             poller();
