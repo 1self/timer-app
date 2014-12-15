@@ -11,7 +11,7 @@
 angular.module('duration', ['ionic', 'ngAnimate', 'ngTouch','ngCordova', 'duration.controllers', 'duration.services', 'angularMoment'])
 
     .constant("API", {
-        endpoint: "https://api-staging.1self.co",
+        endpoint: "https://api.1self.co",
         "appName": "co.1self.duration",
         "appVersion": "1.1.1",
         "appId": "app-id-4478f918d7729f3b943d873d4a334716",
