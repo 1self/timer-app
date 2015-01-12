@@ -331,21 +331,24 @@ angular.module('duration.services', [])
             window.localStorage.events = angular.toJson(queue);
         },
 
+        getLastSentIndex = function(){
+            var last_event_sent_index = window.localStorage.last_event_sent_index;
+            if(typeof last_event_sent_index === 'undefined'){
+                return -1;
+            }else{
+                return parseInt(last_event_sent_index, 10);
+            }
+        },
+
         updateLastSentIndex = function(number_of_sent) {
             var last_index = getLastSentIndex(),
             new_last_sent_index = last_index + number_of_sent;
 
+            console.log("New last sent index: " + new_last_sent_index);
+
             window.localStorage.last_event_sent_index = new_last_sent_index;
         },
 
-        getLastSentIndex = function(){
-            var last_event_sent_index = window.localStorage.last_event_sent_index;
-            if(typeof last_event_sent_index == 'undefined'){
-                return -1;
-            }else{
-                return parseInt(last_event_sent_index);
-            }
-        },
 
         getUnsentEvents = function() {
             var queue = getQueue(),
@@ -376,29 +379,34 @@ angular.module('duration.services', [])
                 };
             },
 
+            lock = false,
+
             poller = function() {
                 var api_events = [],
                 events = getUnsentEvents();
 
-                if (0 != events.length) {
+                if (0 !== events.length) {
                     for (i = 0; i < events.length; i++) {
                         api_events.push(buildAPIEvent(events[i]));
                     }
+                    console.log("Unsent Event Count: " + api_events.length);
 
+                if (!lock) {
+                    lock = true;
                     $http.post(API.endpoint + "/v1/streams/" + api_credentials.streamid + '/events/batch',
-                               api_events, {
-                                   headers: api_headers
-                               })
+                            api_events, {
+                                headers: api_headers
+                            })
                         .success(function(data) {
                             updateLastSentIndex(api_events.length);
+                            lock = false;
                         })
-
                         .error(function(data) {
-                            //do nothing
+                            lock = false;
                         });
                 }
-
-                $timeout(poller, 1000);
+            }
+                $timeout(poller, 2000);
             };
 
             poller();
