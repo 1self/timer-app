@@ -343,9 +343,6 @@ angular.module('duration.services', [])
         updateLastSentIndex = function(number_of_sent) {
             var last_index = getLastSentIndex(),
             new_last_sent_index = last_index + number_of_sent;
-
-            console.log("New last sent index: " + new_last_sent_index);
-
             window.localStorage.last_event_sent_index = new_last_sent_index;
         },
 
@@ -389,8 +386,7 @@ angular.module('duration.services', [])
                     for (i = 0; i < events.length; i++) {
                         api_events.push(buildAPIEvent(events[i]));
                     }
-                    console.log("Unsent Event Count: " + api_events.length);
-
+                    
                 if (!lock) {
                     lock = true;
                     $http.post(API.endpoint + "/v1/streams/" + api_credentials.streamid + '/events/batch',
