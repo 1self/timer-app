@@ -13,7 +13,7 @@ angular.module('duration', ['ionic', 'ngAnimate', 'ngTouch','ngCordova', 'durati
     .constant("API", {
         endpoint: "https://api.1self.co",
         "appName": "co.1self.duration",
-        "appVersion": "1.1.3",
+        "appVersion": "1.1.4",
         "appId": "app-id-4478f918d7729f3b943d873d4a334716",
         "appSecret": "app-secret-244f9e0c2a2a9cab9c358349b8fa3a30c5a123bb7ae562df1b3559358b43cd1f"
     })
