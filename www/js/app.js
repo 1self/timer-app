@@ -20,6 +20,8 @@ angular.module('duration', ['ionic', 'ngAnimate', 'ngTouch','ngCordova', 'durati
 
     .run(function($ionicPlatform, AuthenticationService, EventSendService) {
         $ionicPlatform.ready(function() {
+            window.plugin.notification.local.promptForPermission();
+            
             if(AuthenticationService.authenticated()){
                 EventSendService.sendEvents();
             }else{
