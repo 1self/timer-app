@@ -2,7 +2,8 @@
   "name": "Duration by 1self",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0-beta.13"
+    "ionic": "driftyco/ionic-bower#1.0.0-beta.13",
+    "platform": "~1.3.0"
   },
   "dependencies": {
     "moment": "~2.8.3",
